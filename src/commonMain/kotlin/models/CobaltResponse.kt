@@ -1,3 +1,5 @@
+package models
+
 import kotlinx.serialization.Serializable
 import serialization.MixedNullableString
 
