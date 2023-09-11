@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 group = "me.darefox"
@@ -8,6 +9,8 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+
+val ktorVersion = "2.2.4"
 
 kotlin {
     jvm {
@@ -42,17 +45,35 @@ kotlin {
 
     
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+            }
+        }
         val jvmTest by getting
-        val jsMain by getting
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:$ktorVersion")
+            }
+        }
         val jsTest by getting
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+            }
+        }
         val nativeTest by getting
     }
 }
