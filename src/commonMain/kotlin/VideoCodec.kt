@@ -1,5 +1,3 @@
-package cobalt
-
 import kotlinx.serialization.Serializable
 
 @Serializable
