@@ -22,9 +22,13 @@ data class CobaltServerInfo(
      */
     val name: String,
     /**
+     * Server url
+     */
+    val url: String,
+    /**
      * CORS status
      */
-    val cors: String,
+    val cors: Int,
     /**
      * Server start time
      */
