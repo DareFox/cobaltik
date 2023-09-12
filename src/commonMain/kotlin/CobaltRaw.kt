@@ -1,10 +1,7 @@
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import models.CobaltError
-import models.CobaltRequest
-import models.CobaltResponse
-import models.CobaltResponseStatus
+import models.*
 
 class CobaltRaw(val serverUrl: String) {
     /**
@@ -29,6 +26,19 @@ class CobaltRaw(val serverUrl: String) {
 
         return response
     }
+
+    /**
+     *  # GET /api/serverInfo
+     *  Returns current basic server info.
+     *  @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#get-apiserverinfo">Documentation</a>
+     */
+    suspend fun getServerInfo(): CobaltServerInfo = ktor.use { client ->
+        client.get {
+            url(appendPath("/api/json"))
+            contentType(ContentType.Application.Json)
+        }.body()
+    }
+
 
     private fun appendPath(path: String): String {
         var base = serverUrl
