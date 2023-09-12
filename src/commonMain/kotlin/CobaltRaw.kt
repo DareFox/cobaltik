@@ -8,7 +8,7 @@ import models.CobaltResponseStatus
 
 class CobaltRaw(val serverUrl: String) {
     /**
-     *  # /api/json
+     *  # POST /api/json
      *  Main processing endpoint
      *  @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#post-apijson">Documentation</a>
      *  @throws CobaltError If server returns error
