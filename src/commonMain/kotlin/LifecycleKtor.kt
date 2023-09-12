@@ -32,14 +32,15 @@ internal class LifecycleKtor(
     }
     private var timer: Job? = null
 
-    suspend fun use(func: suspend (HttpClient) -> Unit) {
+    suspend fun <T> use(func: suspend (HttpClient) -> T): T {
         activeUses.getAndUpdate { it + 1 }
         try {
             val client = getClientSafely()
-            func(client)
+            return func(client)
         } finally { // coroutine cancellation
             activeUses.getAndUpdate { it - 1 }
         }
+
     }
 
     private suspend fun getClientSafely(): HttpClient {
