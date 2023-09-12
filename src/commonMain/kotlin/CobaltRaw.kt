@@ -34,8 +34,7 @@ class CobaltRaw(val serverUrl: String) {
      */
     suspend fun getServerInfo(): CobaltServerInfo = ktor.use { client ->
         client.get {
-            url(appendPath("/api/json"))
-            contentType(ContentType.Application.Json)
+            url(appendPath("/api/serverInfo"))
         }.body()
     }
 
