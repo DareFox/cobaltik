@@ -1,4 +1,5 @@
 import io.ktor.client.*
+import io.ktor.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
@@ -6,14 +7,15 @@ import kotlinx.datetime.Clock
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration
 
-expect val lifecycleThread: CoroutineContext
+internal expect val lifecycleThread: CoroutineContext
 
-class LifecycleKtor(
+internal class LifecycleKtor(
     private val inactivityDuration: Duration,
     private val ktorBuilder: () -> HttpClient
 ) {
     private var activeClient: HttpClient? = null
     private val activeUses = MutableStateFlow(0)
+
     private val scope = CoroutineScope(lifecycleThread)
     private val jobUpdater: Job = scope.launch {
         activeUses.collect {
