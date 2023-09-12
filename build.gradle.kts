@@ -63,7 +63,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
             }
         }
-        val jvmTest by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation("org.slf4j:slf4j-simple:2.0.3")
+            }
+        }
         val jsMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-js:$ktorVersion")
