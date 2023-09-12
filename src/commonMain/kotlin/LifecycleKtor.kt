@@ -1,9 +1,8 @@
+import extensions.logger
 import io.ktor.client.*
-import io.ktor.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
-import kotlinx.datetime.Clock
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration
 
@@ -13,18 +12,21 @@ internal class LifecycleKtor(
     private val inactivityDuration: Duration,
     private val ktorBuilder: () -> HttpClient
 ) {
+    private val logger = logger {  }
     private var activeClient: HttpClient? = null
     private val activeUses = MutableStateFlow(0)
 
     private val scope = CoroutineScope(lifecycleThread)
     private val jobUpdater: Job = scope.launch {
-        activeUses.collect {
-            if (it == 0) {
-                println("0 connections")
+        activeUses.collect { uses ->
+            if (uses == 0) {
                 updateTimer()
             } else {
-                println("New active usage, cancel timer")
-                timer?.cancel("New active usage")
+                timer?.let {
+                    logger.debug { "Cancelling timer because activeUses is not 0" }
+                    it.cancel()
+                }
+                timer = null
             }
         }
     }
@@ -44,6 +46,7 @@ internal class LifecycleKtor(
     private suspend fun getClientSafely(): HttpClient {
         return scope.async {
             activeClient ?: run {
+                logger.debug { "Creating Ktor client" }
                 val client = ktorBuilder()
                 activeClient = client
                 client
@@ -52,12 +55,13 @@ internal class LifecycleKtor(
     }
 
     private fun killKtor() {
-        println("Kill Ktor")
+        logger.debug { "Killing ktor for inactivity" }
         activeClient?.close()
         activeClient = null
     }
 
     private fun updateTimer() {
+        logger.debug { "Starting timer because ktor have 0 active usages" }
         timer?.cancel("Restart timer")
         timer = scope.launch {
             delay(inactivityDuration)
