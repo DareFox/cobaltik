@@ -3,13 +3,25 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import models.*
 
+/**
+ * A client for making requests to a Cobalt server.
+ *
+ * @param serverUrl The base URL of the Cobalt server.
+ */
 class CobaltRaw(val serverUrl: String) {
     /**
-     *  # POST /api/json
-     *  Main processing endpoint
-     *  @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#post-apijson">Documentation</a>
-     *  @throws CobaltError If server returns error
-     */
+     * POST `/api/json`
+     *
+     * Makes a request to the main processing endpoint
+     *
+     * This function sends a [CobaltRequest] to the server and expects a [CobaltResponse] in return.
+     * If the server returns an error, a [CobaltError] is thrown.
+     *
+     * @param request The [CobaltRequest] to send to the server.
+     * @return The [CobaltResponse] received from the server.
+     * @throws CobaltError If the server returns an error.
+     * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#post-apijson">Documentation</a>
+    */
     suspend fun request(request: CobaltRequest): CobaltResponse {
         val response = ktor.use { client ->
             client.post {
@@ -28,9 +40,14 @@ class CobaltRaw(val serverUrl: String) {
     }
 
     /**
-     *  # GET /api/serverInfo
-     *  Returns current basic server info.
-     *  @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#get-apiserverinfo">Documentation</a>
+     * GET `/api/serverInfo`
+     *
+     * Retrieves current basic server information.
+     *
+     * This function sends a GET request to retrieve basic information about the Cobalt server.
+     *
+     * @return The [CobaltServerInfo] containing basic server information.
+     * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#get-apiserverinfo">Documentation</a>
      */
     suspend fun getServerInfo(): CobaltServerInfo = ktor.use { client ->
         client.get {
