@@ -2,7 +2,7 @@ package wrapper.builders
 
 import models.*
 
-class CobaltRequestBuilder(var url: String): RequestBuilder<CobaltRequestBuilder> {
+class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder> {
     var videoCodec = VideoCodec.h264
     var videoQuality = VideoQuality._720p
     var audioFormat = AudioFormat.mp3
