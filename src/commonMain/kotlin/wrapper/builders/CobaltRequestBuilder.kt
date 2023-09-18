@@ -2,7 +2,7 @@ package wrapper.builders
 
 import models.*
 
-class CobaltRequestBuilder(var url: String) {
+class CobaltRequestBuilder(var url: String): RequestBuilder<CobaltRequestBuilder> {
     var videoCodec = VideoCodec.h264
     var videoQuality = VideoQuality._720p
     var audioFormat = AudioFormat.mp3
@@ -11,7 +11,7 @@ class CobaltRequestBuilder(var url: String) {
     var muteAudio = false
     var useDubLang = false
 
-    fun build() = CobaltRequest(
+    override fun build() = CobaltRequest(
         url = this.url,
         videoCodec = this.videoCodec,
         videoQuality = this.videoQuality,
@@ -22,7 +22,7 @@ class CobaltRequestBuilder(var url: String) {
         useDubLang = this.useDubLang
     )
 
-    fun build(func: CobaltRequestBuilder.() -> Unit): CobaltRequest {
+    override fun build(func: CobaltRequestBuilder.() -> Unit): CobaltRequest {
         this.func()
         return this.build()
     }
