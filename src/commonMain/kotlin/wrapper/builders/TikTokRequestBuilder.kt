@@ -7,7 +7,12 @@ import models.VideoQuality
 /**
  * Builder class for constructing TikTok video download requests with customizable options.
  *
- * @property url The URL of the TikTok video.
+ * @param url The URL of the TikTok video.
+ *
+ * @property downloadFullTikTokAudio
+ * @property videoQuality
+ * @property muteAudio
+ * @property removeTikTokWatermark
  */
 class TikTokRequestBuilder(val url: String): RequestBuilder<TikTokRequestBuilder> {
     /** Enables download of original sound used in a TikTok video. Defaults to `false` **/
