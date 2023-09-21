@@ -5,6 +5,11 @@ import models.CobaltResponseStatus.*
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
+/**
+ * Converts a [CobaltResponse] into its corresponding [WrappedCobaltResponse] based on the response status.
+ *
+ * @return A [WrappedCobaltResponse] representing the converted response.
+ */
 @OptIn(ExperimentalContracts::class)
 fun CobaltResponse.wrap(): WrappedCobaltResponse {
     return when (status) {
