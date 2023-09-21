@@ -13,6 +13,7 @@ import models.VideoQuality
  * @property videoCodec
  * @property muteAudio
  * @property useDubLang
+ * @property audioOnly
  */
 class YouTubeRequestBuilder(val url: String): RequestBuilder<YouTubeRequestBuilder> {
     /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality._720p]  **/
@@ -23,12 +24,15 @@ class YouTubeRequestBuilder(val url: String): RequestBuilder<YouTubeRequestBuild
     var muteAudio = false
     /** Backend uses Accept-Language for YouTube video audio tracks when true. Defaults to `false` **/
     var useDubLang = false
+    /** Determines whether the request should return only audio. Defaults to `false`. **/
+    var audioOnly = false
 
     override fun build() = CobaltRequestBuilder(url).build {
         videoQuality = this@YouTubeRequestBuilder.videoQuality
         videoCodec = this@YouTubeRequestBuilder.videoCodec
         muteAudio = this@YouTubeRequestBuilder.muteAudio
         useDubLang = this@YouTubeRequestBuilder.useDubLang
+        audioOnly = this@YouTubeRequestBuilder.audioOnly
     }
 
     override fun build(func: YouTubeRequestBuilder.() -> Unit): CobaltRequest {
