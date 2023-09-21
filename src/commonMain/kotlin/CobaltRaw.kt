@@ -7,6 +7,7 @@ import models.*
  * A client for making requests to a Cobalt server.
  *
  * @param serverUrl The base URL of the Cobalt server.
+ * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md">Cobalt API Documentation</a>
  */
 class CobaltRaw(val serverUrl: String) {
     /**
@@ -19,7 +20,6 @@ class CobaltRaw(val serverUrl: String) {
      *
      * @param request The [CobaltRequest] to send to the server.
      * @return The [CobaltResponse] received from the server.
-     * @throws CobaltError If the server returns an error.
      * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#post-apijson">Documentation</a>
     */
     suspend fun request(request: CobaltRequest): CobaltResponse {
@@ -29,11 +29,6 @@ class CobaltRaw(val serverUrl: String) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }.body<CobaltResponse>()
-        }
-
-
-        if (response.status == CobaltResponseStatus.ERROR) {
-            throw CobaltError(response.text ?: "[No error text]")
         }
 
         return response
