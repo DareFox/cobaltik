@@ -6,7 +6,10 @@ import models.CobaltRequest
 /**
  * The `AudioRequestBuilder` class provides a builder for configuring audio only Cobalt requests.
  *
- * @property url The URL for the audio request.
+ * @param url The URL for the audio request.
+ *
+ * @property audioFormat
+ * @property useDubLang
  */
 class AudioRequestBuilder(val url: String): RequestBuilder<AudioRequestBuilder> {
     /** The audio format to use for the request. Defaults to [AudioFormat.mp3]. **/
