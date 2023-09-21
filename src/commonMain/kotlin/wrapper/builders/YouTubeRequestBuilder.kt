@@ -4,10 +4,19 @@ import models.CobaltRequest
 import models.VideoCodec
 import models.VideoQuality
 
+/**
+ * A builder class for constructing YouTube-specific Cobalt requests with customizable options.
+ *
+ * @property url The URL of the YouTube video to request.
+ */
 class YouTubeRequestBuilder(val url: String): RequestBuilder<YouTubeRequestBuilder> {
+    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality._720p]  **/
     var videoQuality = VideoQuality._720p
+    /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
     var videoCodec = VideoCodec.h264
+    /** Disables audio track in video downloads. Defaults to `false` **/
     var muteAudio = false
+    /** Backend uses Accept-Language for YouTube video audio tracks when true. Defaults to `false` **/
     var useDubLang = false
 
     override fun build() = CobaltRequestBuilder(url).build {
