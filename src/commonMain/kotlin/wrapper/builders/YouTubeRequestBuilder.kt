@@ -7,7 +7,12 @@ import models.VideoQuality
 /**
  * A builder class for constructing YouTube-specific Cobalt requests with customizable options.
  *
- * @property url The URL of the YouTube video to request.
+ * @param url The URL of the YouTube video to request.
+ *
+ * @property videoQuality
+ * @property videoCodec
+ * @property muteAudio
+ * @property useDubLang
  */
 class YouTubeRequestBuilder(val url: String): RequestBuilder<YouTubeRequestBuilder> {
     /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality._720p]  **/
