@@ -7,6 +7,12 @@ import models.CobaltRequest
  * with various configuration options.
  *
  * @param T The specific builder implementation type.
+ *
+ * @see CobaltRequestBuilder
+ * @see AudioRequestBuilder
+ * @see VideoRequestBuilder
+ * @see YouTubeRequestBuilder
+ * @see TikTokRequestBuilder
  */
 interface RequestBuilder<T> {
     /**
