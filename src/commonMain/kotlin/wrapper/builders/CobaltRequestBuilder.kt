@@ -6,6 +6,15 @@ import models.*
  * A builder class for creating CobaltRequest instances with various configuration options.
  *
  * @param url The URL for the Cobalt request.
+ *
+ * @property videoCodec
+ * @property videoQuality
+ * @property audioFormat
+ * @property audioOnly
+ * @property removeTikTokWatermark
+ * @property muteAudio
+ * @property useDubLang
+ * @property downloadFullTikTokAudio
  */
 class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder> {
     /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
