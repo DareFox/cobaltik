@@ -10,6 +10,9 @@ import models.VideoQuality
  *
  * @param url The URL for the video request.
  *
+ * @property videoQuality
+ * @property muteAudio
+ *
  * @see YouTubeRequestBuilder For creating specific YouTube requests
  * @see TikTokRequestBuilder For creating specific TikTok requests
  */
