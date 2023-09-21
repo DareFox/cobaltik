@@ -13,6 +13,7 @@ import models.VideoQuality
  * @property videoQuality
  * @property muteAudio
  * @property removeTikTokWatermark
+ * @property audioOnly
  */
 class TikTokRequestBuilder(val url: String): RequestBuilder<TikTokRequestBuilder> {
     /** Enables download of original sound used in a TikTok video. Defaults to `false` **/
@@ -23,12 +24,15 @@ class TikTokRequestBuilder(val url: String): RequestBuilder<TikTokRequestBuilder
     var muteAudio = false
     /** Changes whether downloaded TikTok videos have watermarks. Defaults to `false` **/
     var removeTikTokWatermark = false
+    /** Determines whether the request should return only audio. Defaults to `false`. **/
+    var audioOnly = false
 
     override fun build() = CobaltRequestBuilder(url).build {
         videoQuality = this@TikTokRequestBuilder.videoQuality
         muteAudio = this@TikTokRequestBuilder.muteAudio
         removeTikTokWatermark = this@TikTokRequestBuilder.removeTikTokWatermark
         downloadFullTikTokAudio = this@TikTokRequestBuilder.downloadFullTikTokAudio
+        audioOnly = this@TikTokRequestBuilder.audioOnly
     }
 
     override fun build(func: TikTokRequestBuilder.() -> Unit): CobaltRequest {
