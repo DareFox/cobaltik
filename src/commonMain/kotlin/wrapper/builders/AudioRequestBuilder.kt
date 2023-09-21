@@ -3,8 +3,15 @@ package wrapper.builders
 import models.AudioFormat
 import models.CobaltRequest
 
+/**
+ * The `AudioRequestBuilder` class provides a builder for configuring audio only Cobalt requests.
+ *
+ * @property url The URL for the audio request.
+ */
 class AudioRequestBuilder(val url: String): RequestBuilder<AudioRequestBuilder> {
+    /** The audio format to use for the request. Defaults to [AudioFormat.mp3]. **/
     var audioFormat = AudioFormat.mp3
+    /** Backend uses Accept-Language for YouTube video audio tracks when true. Defaults to `false` **/
     var useDubLang = false
 
     override fun build() = CobaltRequestBuilder(url).build {
