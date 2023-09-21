@@ -2,20 +2,27 @@ package wrapper.builders
 
 import models.*
 
+/**
+ * A builder class for creating CobaltRequest instances with various configuration options.
+ *
+ * @param url The URL for the Cobalt request.
+ */
 class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder> {
-    /** Applies only to YouTube downloads. h264 is recommended for phones. **/
+    /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
     var videoCodec = VideoCodec.h264
-    /** 720 quality is recommended for phones. **/
+    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality._720p]  **/
     var videoQuality = VideoQuality._720p
+    /** The audio format to use for the request. Defaults to [AudioFormat.mp3]. **/
     var audioFormat = AudioFormat.mp3
+    /** Determines whether the request should return only audio. Defaults to `false`. **/
     var audioOnly = false
-    /** Changes whether downloaded TikTok videos have watermarks. **/
+    /** Changes whether downloaded TikTok videos have watermarks. Defaults to `false` **/
     var removeTikTokWatermark = false
-    /** Disables audio track in video downloads. **/
+    /** Disables audio track in video downloads. Defaults to `false` **/
     var muteAudio = false
-    /** Backend uses Accept-Language for YouTube video audio tracks when true. **/
+    /** Backend uses Accept-Language for YouTube video audio tracks when true. Defaults to `false` **/
     var useDubLang = false
-    /** Enables download of original sound used in a TikTok video. **/
+    /** Enables download of original sound used in a TikTok video. Defaults to `false` **/
     var downloadFullTikTokAudio = false
 
     override fun build() = CobaltRequest(
