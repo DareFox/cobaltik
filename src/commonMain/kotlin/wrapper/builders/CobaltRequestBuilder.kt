@@ -7,7 +7,7 @@ class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder
     var videoQuality = VideoQuality._720p
     var audioFormat = AudioFormat.mp3
     var audioOnly = false
-    val removeTikTokWatermark = false
+    var removeTikTokWatermark = false
     var muteAudio = false
     var useDubLang = false
 
