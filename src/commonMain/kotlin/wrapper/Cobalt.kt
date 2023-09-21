@@ -9,15 +9,15 @@ import wrapper.builders.RequestBuilder
 class Cobalt(val serverUrl: String) {
     private val raw = CobaltRaw(serverUrl)
 
-    suspend fun requestAudio(
-        url: String,
-        setupOptions: (AudioRequestBuilder.() -> Unit)? = null
-    ): WrappedCobaltResponse = requestWithBuilder(AudioRequestBuilder(url), setupOptions)
-
+    suspend fun <T> request(builder: RequestBuilder<T>, setupOptions: T.() -> Unit): WrappedCobaltResponse {
+        return requestWithBuilder(builder, setupOptions)
+    }
     suspend fun request(
         url: String,
         setupOptions: (CobaltRequestBuilder.() -> Unit)? = null
     ): WrappedCobaltResponse = requestWithBuilder(CobaltRequestBuilder(url), setupOptions)
+
+    suspend fun request(requestObj: CobaltRequest): WrappedCobaltResponse = requestWrapped(requestObj)
 
     private suspend fun <T> requestWithBuilder(builder: RequestBuilder<T>, setupOptions: (T.() -> Unit)?): WrappedCobaltResponse {
         val build = build(builder, setupOptions)
