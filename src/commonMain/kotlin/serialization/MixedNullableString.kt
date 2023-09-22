@@ -32,7 +32,7 @@ object MixedNullableString : KSerializer<String?> {
 
     private fun parseNull(json: JsonPrimitive, decoder: Decoder): String? {
         return if (json.isString) {
-            json.toString()
+            json.content
         } else {
             when (json.booleanOrNull) {
                 false -> null
