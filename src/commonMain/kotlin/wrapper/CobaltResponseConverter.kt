@@ -13,10 +13,6 @@ import kotlin.contracts.contract
 @OptIn(ExperimentalContracts::class)
 fun CobaltResponse.wrap(): WrappedCobaltResponse {
     return when (status) {
-        ERROR -> {
-            notNull("url", url)
-            ErrorResponse(text)
-        }
         REDIRECT -> {
             notNull("url", url)
             RedirectResponse(url)
@@ -25,6 +21,7 @@ fun CobaltResponse.wrap(): WrappedCobaltResponse {
             notNull("url", url)
             StreamResponse(url)
         }
+        ERROR -> ErrorResponse(text)
         SUCCESS -> SuccessResponse(text)
         RATELIMIT -> RateLimitResponse(text)
         PICKER -> {
