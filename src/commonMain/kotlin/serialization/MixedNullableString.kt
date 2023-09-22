@@ -35,7 +35,7 @@ object MixedNullableString : KSerializer<String?> {
             json.content
         } else {
             when (json.booleanOrNull) {
-                false -> null
+                false, null -> null
                 else -> decoder.decodeString() // create exception
             }
         }
