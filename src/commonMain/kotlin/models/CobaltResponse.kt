@@ -6,11 +6,11 @@ import serialization.MixedNullableString
 @Serializable
 data class CobaltResponse(
     val status: CobaltResponseStatus,
-    val url: String?,
-    val text: String?,
-    val pickerType: PickerType?,
-    val picker: List<PickerItem>?,
+    val url: String? = null,
+    val text: String? = null,
+    val pickerType: PickerType? = null,
+    val picker: List<PickerItem>? = null,
     @Serializable(with = MixedNullableString::class)
-    val audio: String?
+    val audio: String? = null
 )
 
