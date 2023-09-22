@@ -60,7 +60,7 @@ class MixedNullableStringTest {
     fun testDeserializationWithTrue() {
         assertFails {
             Json.decodeFromString<TestJson>("""
-                { "field": true``` }
+                { "field": true }
             """.trimIndent())
         }
     }
