@@ -9,8 +9,7 @@ import kotlin.test.assertTrue
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class CobaltResponseExtensionsTest {
-
+class CobaltResponseExt {
     @Test
     fun testIsError() {
         // Create a CobaltResponse representing an error
