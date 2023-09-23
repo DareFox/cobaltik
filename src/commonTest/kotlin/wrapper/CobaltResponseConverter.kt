@@ -7,8 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class CobaltResponseExtensionsTest {
-
+class CobaltResponseConverter {
     @Test
     fun testWrapError() {
         // Create a CobaltResponse representing an error
