@@ -11,7 +11,7 @@ data class CobaltRequest(
     @SerialName("vCodec")
     val videoCodec: VideoCodec = VideoCodec.h264,
     @SerialName("vQuality")
-    val videoQuality: VideoQuality = VideoQuality._720p,
+    val videoQuality: VideoQuality = VideoQuality.P720,
     @SerialName("aFormat")
     val audioFormat: AudioFormat = AudioFormat.mp3,
     @SerialName("isAudioOnly")

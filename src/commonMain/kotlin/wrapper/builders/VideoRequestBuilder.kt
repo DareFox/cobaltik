@@ -1,8 +1,6 @@
 package wrapper.builders
 
-import models.AudioFormat
 import models.CobaltRequest
-import models.VideoCodec
 import models.VideoQuality
 
 /**
@@ -17,8 +15,8 @@ import models.VideoQuality
  * @see TikTokRequestBuilder For creating specific TikTok requests
  */
 class VideoRequestBuilder(val url: String): RequestBuilder<VideoRequestBuilder> {
-    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality._720p]  **/
-    var videoQuality = VideoQuality._720p
+    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality.P720]  **/
+    var videoQuality = VideoQuality.P720
     /** Disables audio track in video downloads. Defaults to `false` **/
     var muteAudio = false
 

@@ -6,28 +6,28 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class VideoQuality {
     @SerialName("144")
-    _144p,
+    P144,
 
     @SerialName("240")
-    _240p,
+    P240,
 
     @SerialName("360")
-    _360p,
+    P360,
 
     @SerialName("480")
-    _480p,
+    P480,
 
     @SerialName("720")
-    _720p,
+    P720,
 
     @SerialName("1080")
-    _1080p,
+    P1080,
 
     @SerialName("1440")
-    _1440p,
+    P1440,
 
     @SerialName("2160")
-    _2160p,
+    P2160,
 
     @SerialName("max")
     MAX,
