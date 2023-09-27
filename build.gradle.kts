@@ -24,11 +24,8 @@ kotlin {
     }
     js {
         browser {
-            commonWebpackConfig {
-                cssSupport {
-                    enabled.set(true)
+            generateTypeScriptDefinitions()
                 }
-            }
         }
         nodejs() {
             generateTypeScriptDefinitions()
