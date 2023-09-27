@@ -1,7 +1,10 @@
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import models.*
+import models.CobaltError
+import models.CobaltRequest
+import models.CobaltResponse
+import models.CobaltServerInfo
 
 /**
  * A client for making requests to a Cobalt server.
