@@ -46,4 +46,4 @@ bin/
 kotlin-js-store/
 
 ### Sandbox ###
-src/**/Sandbox.kt
+src/**/sandbox/
