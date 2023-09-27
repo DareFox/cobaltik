@@ -1,9 +1,9 @@
 package wrapper
 
 import models.CobaltResponse
-import models.CobaltResponseStatus.*
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import models.CobaltResponseStatus as Status
 
 /**
  * Converts a [CobaltResponse] into its corresponding [WrappedCobaltResponse] based on the response status.
@@ -13,18 +13,18 @@ import kotlin.contracts.contract
 @OptIn(ExperimentalContracts::class)
 fun CobaltResponse.wrap(): WrappedCobaltResponse {
     return when (status) {
-        REDIRECT -> {
+        Status.REDIRECT -> {
             notNull("url", url)
             RedirectResponse(url)
         }
-        STREAM -> {
+        Status.STREAM -> {
             notNull("url", url)
             StreamResponse(url)
         }
-        ERROR -> ErrorResponse(text)
-        SUCCESS -> SuccessResponse(text)
-        RATELIMIT -> RateLimitResponse(text)
-        PICKER -> {
+        Status.ERROR -> ErrorResponse(text)
+        Status.SUCCESS -> SuccessResponse(text)
+        Status.RATELIMIT -> RateLimitResponse(text)
+        Status.PICKER -> {
             notNull("picker", picker)
             notNull("pickerType", pickerType)
 
