@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
     kotlin("multiplatform") version "1.9.10"
     kotlin("plugin.serialization") version "1.9.10"
@@ -10,6 +12,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+detekt {
+    allRules = false // activate all available (even unstable) rules.
+    config.setFrom("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
 }
 
 val ktorVersion = "2.2.4"
