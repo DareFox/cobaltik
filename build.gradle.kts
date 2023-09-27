@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.10"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("maven-publish")
+    id("com.android.library") version "8.1.0"
 }
 
 group = "me.darefox"
@@ -42,6 +43,15 @@ enum class Host {
     Linux,
     Windows,
     Other
+}
+
+android {
+    compileSdk = 31
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 31
+    }
+    namespace = "me.darefox.cobaltik"
 }
 
 kotlin {
@@ -94,7 +104,6 @@ kotlin {
 
     jvm {
         jvmToolchain(8)
-        withJava()
         testRuns.named("test") {
             executionTask.configure {
                 useJUnitPlatform()
@@ -119,6 +128,9 @@ kotlin {
             })
         }
     }
+    androidTarget {
+        publishLibraryVariants("release", "debug")
+    }
     getHostNativeTargets(getCurrentHost())
 
     sourceSets {
@@ -135,6 +147,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+        val androidMain by getting {
+            dependencies {
+                runtimeOnly("io.ktor:ktor-client-android:${LibVersions.KTOR}")
+            }
+        }
+        val androidTest by creating
         val jvmMain by getting {
             dependencies {
                 runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
@@ -166,7 +184,9 @@ kotlin {
 
             tasks.withType<AbstractPublishToMaven>()
                 .matching { it.publication == targetPublication }
-                .configureEach { onlyIf { getCurrentHost() == host } }
+                .configureEach { onlyIf { (getCurrentHost() == host).also {
+                    println("Can publish ${targetPublication.name}? = $it")
+                } } }
         }
     }
 
