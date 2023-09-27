@@ -46,31 +46,31 @@ enum class Host {
 
 kotlin {
     fun darwinTargets() = listOf(
-        macosX64(),
-        macosArm64(),
+        macosX64("native"),
+        macosArm64("native"),
 
-        iosSimulatorArm64(),
-        iosX64(),
-        iosArm64(),
+        iosSimulatorArm64("native"),
+        iosX64("native"),
+        iosArm64("native"),
 
-        watchosSimulatorArm64(),
-        watchosX64(),
-        watchosArm32(),
-        watchosArm64(),
-        watchosDeviceArm64(),
+        watchosSimulatorArm64("native"),
+        watchosX64("native"),
+        watchosArm32("native"),
+        watchosArm64("native"),
+        watchosDeviceArm64("native"),
 
-        tvosSimulatorArm64(),
-        tvosX64(),
-        tvosArm64(),
+        tvosSimulatorArm64("native"),
+        tvosX64("native"),
+        tvosArm64("native"),
     )
 
     fun linuxTargets() = listOf(
-        linuxX64(),
-        linuxArm64()
+        linuxX64("native"),
+        linuxArm64("native")
     )
 
     fun windowsTargets() = listOf(
-        mingwX64()
+        mingwX64("native")
     )
 
     fun getCurrentHost(): Host {
@@ -151,12 +151,12 @@ kotlin {
             }
         }
         val jsTest by getting
-        val nativeMain by creating {
+        val nativeMain by getting {
             dependencies {
                 runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.ktorVersion}")
             }
         }
-        val nativeTest by creating
+        val nativeTest by getting
     }
 
     fun PublicationContainer.onlyHostCanPublishTheseTargets(host: Host, targets: List<KotlinTarget>) {
