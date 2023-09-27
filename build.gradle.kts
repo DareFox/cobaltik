@@ -158,5 +158,21 @@ kotlin {
         }
         val nativeTest by creating
     }
+
+    fun PublicationContainer.onlyHostCanPublishTheseTargets(host: Host, targets: List<KotlinTarget>) {
+        val stringTargets = targets.map { it.name } + "kotlinMultiplatform"
+        matching { it.name in stringTargets }.all {
+            val targetPublication = this@all
+
+            tasks.withType<AbstractPublishToMaven>()
+                .matching { it.publication == targetPublication }
+                .configureEach { onlyIf { getCurrentHost() == host } }
+        }
+    }
+
+    publishing {
+        publications {
+            onlyHostCanPublishTheseTargets(Host.Linux, listOf(jvm(), js()))
+        }
     }
 }
