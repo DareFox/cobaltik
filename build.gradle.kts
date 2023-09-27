@@ -47,6 +47,9 @@ kotlin {
         }
         nodejs() {
             generateTypeScriptDefinitions()
+            testTask(Action {
+                useMocha()
+            })
         }
     }
 
