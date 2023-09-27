@@ -5,6 +5,7 @@ import models.CobaltRequest
 import wrapper.builders.AudioRequestBuilder
 import wrapper.builders.CobaltRequestBuilder
 import wrapper.builders.RequestBuilder
+import models.CobaltServerInfo
 
 /**
  * The `Cobalt` class provides a high-level API for making requests to a Cobalt server.
@@ -44,6 +45,14 @@ class Cobalt(val serverUrl: String) {
      * @return [A wrapped Cobalt response][WrappedCobaltResponse].
      */
     suspend fun request(requestObj: CobaltRequest): WrappedCobaltResponse = requestWrapped(requestObj)
+
+
+    /**
+     * Retrieve basic information about the Cobalt server.
+     *
+     * @return [CobaltServerInfo] server info
+     */
+    suspend fun getServerInfo() = raw.getServerInfo()
 
     private suspend fun <T> requestWithBuilder(builder: RequestBuilder<T>, setupOptions: (T.() -> Unit)?): WrappedCobaltResponse {
         val build = build(builder, setupOptions)
