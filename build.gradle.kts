@@ -1,4 +1,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform") version "1.9.10"
@@ -35,18 +37,59 @@ object LibVersions {
     val slf4jSimple = "2.0.3"
 }
 
-kotlin {
-    val hostOs = System.getProperty("os.name")
-    val isArm64 = System.getProperty("os.arch") == "aarch64"
-    val isMingwX64 = hostOs.startsWith("Windows")
+enum class Host {
+    MacOS,
+    Linux,
+    Windows,
+    Other
+}
 
-    val nativeTarget = when {
-        hostOs == "Mac OS X" && isArm64 -> macosArm64("native")
-        hostOs == "Mac OS X" && !isArm64 -> macosX64("native")
-        hostOs == "Linux" && isArm64 -> linuxArm64("native")
-        hostOs == "Linux" && !isArm64 -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+kotlin {
+    fun darwinTargets() = listOf(
+        macosX64(),
+        macosArm64(),
+
+        iosSimulatorArm64(),
+        iosX64(),
+        iosArm64(),
+
+        watchosSimulatorArm64(),
+        watchosX64(),
+        watchosArm32(),
+        watchosArm64(),
+        watchosDeviceArm64(),
+
+        tvosSimulatorArm64(),
+        tvosX64(),
+        tvosArm64(),
+    )
+
+    fun linuxTargets() = listOf(
+        linuxX64(),
+        linuxArm64()
+    )
+
+    fun windowsTargets() = listOf(
+        mingwX64()
+    )
+
+    fun getCurrentHost(): Host {
+        val hostProperty = System.getProperty("os.name")
+        return when {
+            hostProperty == "Mac OS X" -> Host.MacOS
+            hostProperty == "Linux" -> Host.Linux
+            hostProperty.startsWith("Windows") -> Host.Windows
+            else -> Host.Other
+        }
+    }
+
+    fun getHostNativeTargets(host: Host): List<KotlinNativeTarget> {
+        return when(host) {
+            Host.MacOS -> darwinTargets()
+            Host.Linux -> linuxTargets()
+            Host.Windows -> windowsTargets()
+            Host.Other -> listOf()
+        }
     }
 
     jvm {
@@ -57,6 +100,7 @@ kotlin {
                 useJUnitPlatform()
             }
         }
+
     }
     js {
         browser {
@@ -64,7 +108,7 @@ kotlin {
             testTask(Action {
                 useKarma {
                     useFirefoxHeadless()
-                    if (hostOs == "Mac OS X") useSafari()
+                    if (getCurrentHost() == Host.MacOS) useSafari()
                 }
             })
         }
@@ -75,6 +119,7 @@ kotlin {
             })
         }
     }
+    getHostNativeTargets(getCurrentHost())
 
     sourceSets {
         val commonMain by getting {
@@ -106,11 +151,12 @@ kotlin {
             }
         }
         val jsTest by getting
-        val nativeMain by getting {
+        val nativeMain by creating {
             dependencies {
                 runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.ktorVersion}")
             }
         }
-        val nativeTest by getting
+        val nativeTest by creating
+    }
     }
 }
