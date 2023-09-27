@@ -17,24 +17,24 @@ repositories {
 }
 
 detekt {
-    allRules = false // activate all available (even unstable) rules.
-    config.setFrom("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    allRules = false
+    config.setFrom("$projectDir/config/detekt.yml")
 }
 
 tasks.withType<Detekt>().configureEach {
     reports {
         html.required.set(true) // observe findings in your browser with structure and code snippets
         xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
-        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
+        txt.required.set(true) // similar to the CLI output, contains issue signature to manually edit baseline files
+        sarif.required.set(true) // standardized SARIF format to support integrations with GitHub Code Scanning
         md.required.set(true) // simple Markdown format
     }
 }
 
 object LibVersions {
-    val ktorVersion = "2.2.4"
-    val kotlingLogging = "5.0.1"
-    val slf4jSimple = "2.0.3"
+    const val KTOR = "2.2.4"
+    const val KOTLIN_LOGGING = "5.0.1"
+    const val SLF4J_SIMPLE = "2.0.3"
 }
 
 enum class Host {
@@ -124,10 +124,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.oshai:kotlin-logging:${LibVersions.kotlingLogging}")
-                implementation("io.ktor:ktor-client-core:${LibVersions.ktorVersion}")
-                implementation("io.ktor:ktor-client-content-negotiation:${LibVersions.ktorVersion}")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:${LibVersions.ktorVersion}")
+                implementation("io.github.oshai:kotlin-logging:${LibVersions.KOTLIN_LOGGING}")
+                implementation("io.ktor:ktor-client-core:${LibVersions.KTOR}")
+                implementation("io.ktor:ktor-client-content-negotiation:${LibVersions.KTOR}")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${LibVersions.KTOR}")
             }
         }
         val commonTest by getting {
@@ -137,23 +137,23 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.ktorVersion}")
+                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
             }
         }
         val jvmTest by getting {
             dependencies {
-                runtimeOnly("org.slf4j:slf4j-simple:${LibVersions.slf4jSimple}")
+                runtimeOnly("org.slf4j:slf4j-simple:${LibVersions.SLF4J_SIMPLE}")
             }
         }
         val jsMain by getting {
             dependencies {
-                runtimeOnly("io.ktor:ktor-client-js:${LibVersions.ktorVersion}")
+                runtimeOnly("io.ktor:ktor-client-js:${LibVersions.KTOR}")
             }
         }
         val jsTest by getting
         val nativeMain by getting {
             dependencies {
-                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.ktorVersion}")
+                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
             }
         }
         val nativeTest by getting
