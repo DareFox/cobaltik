@@ -20,8 +20,8 @@ import models.VideoQuality
  * @property downloadFullTikTokAudio
  */
 class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder> {
-    /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
-    var videoCodec = VideoCodec.h264
+    /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.H264] **/
+    var videoCodec = VideoCodec.H264
     /** The video quality to use for the request. 720 quality is recommended for phones.
      * Defaults to [VideoQuality.P720] **/
     var videoQuality = VideoQuality.P720

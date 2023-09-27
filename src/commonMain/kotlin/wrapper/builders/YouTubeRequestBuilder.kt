@@ -19,8 +19,8 @@ class YouTubeRequestBuilder(val url: String): RequestBuilder<YouTubeRequestBuild
     /** The video quality to use for the request. 720 quality is recommended for phones.
      * Defaults to [VideoQuality.P720]  **/
     var videoQuality = VideoQuality.P720
-    /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
-    var videoCodec = VideoCodec.h264
+    /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.H264] **/
+    var videoCodec = VideoCodec.H264
     /** Disables audio track in video downloads. Defaults to `false` **/
     var muteAudio = false
     /** Backend uses Accept-Language for YouTube video audio tracks when true. Defaults to `false` **/

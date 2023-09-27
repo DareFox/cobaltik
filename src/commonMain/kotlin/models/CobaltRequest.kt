@@ -9,7 +9,7 @@ data class CobaltRequest(
     val url: String,
     /** Applies only to YouTube downloads. h264 is recommended for phones. **/
     @SerialName("vCodec")
-    val videoCodec: VideoCodec = VideoCodec.h264,
+    val videoCodec: VideoCodec = VideoCodec.H264,
     @SerialName("vQuality")
     val videoQuality: VideoQuality = VideoQuality.P720,
     @SerialName("aFormat")
