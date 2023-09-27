@@ -16,7 +16,8 @@ import models.VideoQuality
  * @property audioOnly
  */
 class YouTubeRequestBuilder(val url: String): RequestBuilder<YouTubeRequestBuilder> {
-    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality.P720]  **/
+    /** The video quality to use for the request. 720 quality is recommended for phones.
+     * Defaults to [VideoQuality.P720]  **/
     var videoQuality = VideoQuality.P720
     /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
     var videoCodec = VideoCodec.h264

@@ -17,7 +17,8 @@ import models.VideoQuality
 class TikTokRequestBuilder(val url: String): RequestBuilder<TikTokRequestBuilder> {
     /** Enables download of original sound used in a TikTok video. Defaults to `false` **/
     var downloadFullTikTokAudio = false
-    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality.P720]  **/
+    /** The video quality to use for the request. 720 quality is recommended for phones.
+     * Defaults to [VideoQuality.P720]  **/
     var videoQuality = VideoQuality.P720
     /** Disables audio track in video downloads. Defaults to `false` **/
     var muteAudio = false

@@ -58,7 +58,8 @@ data class RedirectResponse(val redirectUrl: String) : WrappedCobaltResponse()
 data class StreamResponse(val streamUrl: String) : WrappedCobaltResponse()
 
 /**
- * Represents a picker (a.k.a gallery) response with the specified [type], a list of [items], and an optional [audioUrl].
+ * Represents a picker (a.k.a gallery) response with
+ * the specified [type], a list of [items], and an optional [audioUrl].
  *
  * @param type The type of the picker response.
  * @param items The list of picker items.

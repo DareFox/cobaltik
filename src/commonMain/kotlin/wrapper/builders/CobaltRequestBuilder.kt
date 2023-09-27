@@ -22,7 +22,8 @@ import models.VideoQuality
 class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder> {
     /** Applies only to YouTube downloads. h264 is recommended for phones. Defaults to [VideoCodec.h264] **/
     var videoCodec = VideoCodec.h264
-    /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality.P720]  **/
+    /** The video quality to use for the request. 720 quality is recommended for phones.
+     * Defaults to [VideoQuality.P720] **/
     var videoQuality = VideoQuality.P720
     /** The audio format to use for the request. Defaults to [AudioFormat.MP3]. **/
     var audioFormat = AudioFormat.MP3
