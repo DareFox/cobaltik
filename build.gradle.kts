@@ -29,7 +29,11 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
-val ktorVersion = "2.2.4"
+object LibVersions {
+    val ktorVersion = "2.2.4"
+    val kotlingLogging = "5.0.1"
+    val slf4jSimple = "2.0.3"
+}
 
 kotlin {
     val hostOs = System.getProperty("os.name")
@@ -75,10 +79,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.oshai:kotlin-logging:5.0.1")
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.github.oshai:kotlin-logging:${LibVersions.kotlingLogging}")
+                implementation("io.ktor:ktor-client-core:${LibVersions.ktorVersion}")
+                implementation("io.ktor:ktor-client-content-negotiation:${LibVersions.ktorVersion}")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${LibVersions.ktorVersion}")
             }
         }
         val commonTest by getting {
@@ -88,23 +92,23 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                runtimeOnly("io.ktor:ktor-client-cio:$ktorVersion")
+                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.ktorVersion}")
             }
         }
         val jvmTest by getting {
             dependencies {
-                runtimeOnly("org.slf4j:slf4j-simple:2.0.3")
+                runtimeOnly("org.slf4j:slf4j-simple:${LibVersions.slf4jSimple}")
             }
         }
         val jsMain by getting {
             dependencies {
-                runtimeOnly("io.ktor:ktor-client-js:$ktorVersion")
+                runtimeOnly("io.ktor:ktor-client-js:${LibVersions.ktorVersion}")
             }
         }
         val jsTest by getting
         val nativeMain by getting {
             dependencies {
-                runtimeOnly("io.ktor:ktor-client-cio:$ktorVersion")
+                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.ktorVersion}")
             }
         }
         val nativeTest by getting
