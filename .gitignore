@@ -41,3 +41,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Kotlin/JS ###
+kotlin-js-store/
+
+
