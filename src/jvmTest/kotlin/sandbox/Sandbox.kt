@@ -1,3 +1,5 @@
+package sandbox
+
 import kotlin.test.Test
 
 class Sandbox {
