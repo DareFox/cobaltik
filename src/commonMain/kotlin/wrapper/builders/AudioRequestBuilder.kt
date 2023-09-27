@@ -12,8 +12,8 @@ import models.CobaltRequest
  * @property useDubLang
  */
 class AudioRequestBuilder(val url: String): RequestBuilder<AudioRequestBuilder> {
-    /** The audio format to use for the request. Defaults to [AudioFormat.mp3]. **/
-    var audioFormat = AudioFormat.mp3
+    /** The audio format to use for the request. Defaults to [AudioFormat.MP3]. **/
+    var audioFormat = AudioFormat.MP3
     /** Backend uses Accept-Language for YouTube video audio tracks when true. Defaults to `false` **/
     var useDubLang = false
 

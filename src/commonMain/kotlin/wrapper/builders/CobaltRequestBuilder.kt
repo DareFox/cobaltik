@@ -1,6 +1,9 @@
 package wrapper.builders
 
-import models.*
+import models.AudioFormat
+import models.CobaltRequest
+import models.VideoCodec
+import models.VideoQuality
 
 /**
  * A builder class for creating CobaltRequest instances with various configuration options.
@@ -21,8 +24,8 @@ class CobaltRequestBuilder(val url: String): RequestBuilder<CobaltRequestBuilder
     var videoCodec = VideoCodec.h264
     /** The video quality to use for the request. 720 quality is recommended for phones. Defaults to [VideoQuality.P720]  **/
     var videoQuality = VideoQuality.P720
-    /** The audio format to use for the request. Defaults to [AudioFormat.mp3]. **/
-    var audioFormat = AudioFormat.mp3
+    /** The audio format to use for the request. Defaults to [AudioFormat.MP3]. **/
+    var audioFormat = AudioFormat.MP3
     /** Determines whether the request should return only audio. Defaults to `false`. **/
     var audioOnly = false
     /** Changes whether downloaded TikTok videos have watermarks. Defaults to `false` **/

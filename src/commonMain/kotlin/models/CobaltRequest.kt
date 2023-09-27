@@ -13,7 +13,7 @@ data class CobaltRequest(
     @SerialName("vQuality")
     val videoQuality: VideoQuality = VideoQuality.P720,
     @SerialName("aFormat")
-    val audioFormat: AudioFormat = AudioFormat.mp3,
+    val audioFormat: AudioFormat = AudioFormat.MP3,
     @SerialName("isAudioOnly")
     val isAudioOnly: Boolean = false,
     @SerialName("isNoTTWatermark")
