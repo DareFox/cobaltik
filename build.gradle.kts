@@ -2,6 +2,8 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+@Suppress // to make detekt shut up and stop crashing IDE
+
 plugins {
     kotlin("multiplatform") version "1.9.10"
     kotlin("plugin.serialization") version "1.9.10"
