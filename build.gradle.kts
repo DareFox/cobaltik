@@ -197,7 +197,7 @@ kotlin {
 
     publishing {
         publications {
-            onlyHostCanPublishTheseTargets(Host.Linux, listOf(jvm(), js()))
+            onlyHostCanPublishTheseTargets(Host.Linux, listOf(jvm(), js(), androidTarget()))
         }
     }
 }
