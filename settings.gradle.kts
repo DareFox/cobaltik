@@ -1,3 +1,9 @@
+buildCache {
+    local {
+        removeUnusedEntriesAfterDays = 7
+    }
+}
+
 pluginManagement {
     repositories {
         mavenCentral()
