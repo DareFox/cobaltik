@@ -57,7 +57,6 @@ internal class LifecycleKtor(
         } finally { // coroutine cancellation
             activeUses.getAndUpdate { it - 1 }
         }
-
     }
 
     /**
