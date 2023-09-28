@@ -184,9 +184,18 @@ kotlin {
 
             tasks.withType<AbstractPublishToMaven>()
                 .matching { it.publication == targetPublication }
-                .configureEach { onlyIf { (getCurrentHost() == host).also {
-                    println("Can publish ${targetPublication.name}? = $it")
-                } } }
+                .configureEach {
+                    onlyIf {
+                        val canPublish = getCurrentHost() == host
+                        when(canPublish) {
+                            true ->
+                                println("Current host (${host.name}) can publish ${targetPublication.name} target")
+                            false ->
+                                println("Only ${host.name} can publish ${targetPublication.name} target")
+                        }
+                        canPublish
+                    }
+                }
         }
     }
 
