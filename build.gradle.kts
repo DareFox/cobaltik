@@ -13,10 +13,6 @@ plugins {
 group = "me.darefox"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
-
 detekt {
     allRules = false
     config.setFrom("$projectDir/config/detekt.yml")
