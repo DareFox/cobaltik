@@ -165,7 +165,11 @@ kotlin {
                 runtimeOnly("io.ktor:ktor-client-js:${LibVersions.KTOR}")
             }
         }
-        val jsTest by getting
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
         val nativeMain by creating {
             dependencies {
                 runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
