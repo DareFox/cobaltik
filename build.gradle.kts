@@ -1,5 +1,4 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 @Suppress // to make detekt shut up and stop crashing IDE
@@ -54,31 +53,31 @@ android {
 
 kotlin {
     fun darwinTargets() = listOf(
-        macosX64("native"),
-        macosArm64("native"),
+        macosX64(),
+        macosArm64(),
 
-        iosSimulatorArm64("native"),
-        iosX64("native"),
-        iosArm64("native"),
+        iosSimulatorArm64(),
+        iosX64(),
+        iosArm64(),
 
-        watchosSimulatorArm64("native"),
-        watchosX64("native"),
-        watchosArm32("native"),
-        watchosArm64("native"),
-        watchosDeviceArm64("native"),
+        watchosSimulatorArm64(),
+        watchosX64(),
+        watchosArm32(),
+        watchosArm64(),
+        watchosDeviceArm64(),
 
-        tvosSimulatorArm64("native"),
-        tvosX64("native"),
-        tvosArm64("native"),
+        tvosSimulatorArm64(),
+        tvosX64(),
+        tvosArm64(),
     )
 
     fun linuxTargets() = listOf(
-        linuxX64("native"),
-        linuxArm64("native")
+        linuxX64(),
+        linuxArm64()
     )
 
     fun windowsTargets() = listOf(
-        mingwX64("native")
+        mingwX64()
     )
 
     fun getCurrentHost(): Host {
@@ -129,7 +128,7 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
-    getHostNativeTargets(getCurrentHost())
+    val nativeHostTargets = getHostNativeTargets(getCurrentHost())
 
     sourceSets {
         val commonMain by getting {
@@ -167,13 +166,19 @@ kotlin {
             }
         }
         val jsTest by getting
-        val nativeMain by getting {
+        val nativeMain by creating {
             dependencies {
                 runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
             }
         }
-        val nativeTest by getting
+        val nativeTest by creating
+        nativeHostTargets.forEach {
+            getByName("${it.targetName}Main") {
+                dependsOn(nativeMain)
+            }
+        }
     }
+
 
 
     fun PublicationContainer.onlyHostCanPublishTheseTargets(
