@@ -35,12 +35,49 @@ object LibVersions {
     const val SLF4J_SIMPLE = "2.0.3"
 }
 
-enum class Host {
+enum class OS {
     MacOS,
     Linux,
     Windows,
     Other
 }
+
+enum class Arch {
+    Arm,
+    X86,
+    Other
+}
+
+data class Machine(
+    val system: OS,
+    val arch: Arch
+) {
+    companion object {
+        val currentMachine by lazy {
+            Machine(getSystem(), getArch())
+        }
+
+        private fun getSystem(): OS {
+            val hostProperty = System.getProperty("os.name")
+            return when {
+                hostProperty == "Mac OS X" -> OS.MacOS
+                hostProperty == "Linux" -> OS.Linux
+                hostProperty.startsWith("Windows") -> OS.Windows
+                else -> OS.Other
+            }
+        }
+
+        private fun getArch(): Arch {
+            val arch = System.getProperty("os.arch")
+            return when (arch) {
+                "amd64", "x86" -> Arch.X86
+                "aarch64", "aarch32" -> Arch.Arm
+                else -> Arch.Other
+            }
+        }
+    }
+}
+
 
 android {
     compileSdk = 33
@@ -52,50 +89,38 @@ android {
 }
 
 kotlin {
-    fun darwinTargets() = listOf(
+    fun darwinTargetsX86() = listOf(
         macosX64(),
+        iosX64(),
+        watchosX64(),
+        tvosX64(),
+    )
+    fun darwinTargetsArm() = listOf(
         macosArm64(),
 
         iosSimulatorArm64(),
-        iosX64(),
         iosArm64(),
 
         watchosSimulatorArm64(),
-        watchosX64(),
         watchosArm32(),
         watchosArm64(),
         watchosDeviceArm64(),
 
         tvosSimulatorArm64(),
-        tvosX64(),
         tvosArm64(),
     )
+    fun linuxTargetsArm() = listOf(linuxArm64())
+    fun linuxTargetsX86() = listOf(linuxX64())
+    fun windowsTargetsX86() = listOf(mingwX64())
 
-    fun linuxTargets() = listOf(
-        linuxX64(),
-        linuxArm64()
-    )
-
-    fun windowsTargets() = listOf(
-        mingwX64()
-    )
-
-    fun getCurrentHost(): Host {
-        val hostProperty = System.getProperty("os.name")
-        return when {
-            hostProperty == "Mac OS X" -> Host.MacOS
-            hostProperty == "Linux" -> Host.Linux
-            hostProperty.startsWith("Windows") -> Host.Windows
-            else -> Host.Other
-        }
-    }
-
-    fun getHostNativeTargets(host: Host): List<KotlinNativeTarget> {
-        return when(host) {
-            Host.MacOS -> darwinTargets()
-            Host.Linux -> linuxTargets()
-            Host.Windows -> windowsTargets()
-            Host.Other -> listOf()
+    fun getHostNativeTargets(machine: Machine): List<KotlinNativeTarget> {
+        return when(machine) {
+            Machine(OS.MacOS, Arch.Arm) -> darwinTargetsArm()
+            Machine(OS.MacOS, Arch.X86) -> darwinTargetsX86()
+            Machine(OS.Linux, Arch.Arm) -> linuxTargetsArm()
+            Machine(OS.Linux, Arch.X86) -> linuxTargetsX86()
+            Machine(OS.Windows, Arch.X86) -> windowsTargetsX86()
+            else -> listOf()
         }
     }
 
@@ -114,7 +139,7 @@ kotlin {
             testTask(Action {
                 useKarma {
                     useFirefoxHeadless()
-                    if (getCurrentHost() == Host.MacOS) useSafari()
+                    if (Machine.currentMachine.system == OS.MacOS) useSafari()
                 }
             })
         }
@@ -128,7 +153,7 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
-    val nativeHostTargets = getHostNativeTargets(getCurrentHost())
+    val nativeHostTargets = getHostNativeTargets(Machine.currentMachine)
 
     sourceSets {
         val commonMain by getting {
@@ -186,7 +211,7 @@ kotlin {
 
 
     fun PublicationContainer.onlyHostCanPublishTheseTargets(
-        host: Host,
+        machine: Machine,
         targets: List<String>
     ) {
         matching { it.name in targets }.all {
@@ -196,12 +221,12 @@ kotlin {
                 .matching { (it.publication == targetPublication) }
                 .configureEach {
                     onlyIf {
-                        val canPublish = getCurrentHost() == host
+                        val canPublish = Machine.currentMachine == machine
                         when(canPublish) {
                             true ->
-                                println("Current host (${host.name}) can publish ${targetPublication.name} target")
+                                println("Current host ($machine) can publish ${targetPublication.name} target")
                             false ->
-                                println("Only ${host.name} can publish ${targetPublication.name} target")
+                                println("Only $machine can publish ${targetPublication.name} target")
                         }
                         canPublish
                     }
@@ -212,7 +237,7 @@ kotlin {
     publishing {
         publications {
             onlyHostCanPublishTheseTargets(
-                host = Host.Linux,
+                machine = Machine(OS.Linux, Arch.X86),
                 targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
             )
         }
