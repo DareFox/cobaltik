@@ -139,7 +139,6 @@ kotlin {
             testTask(Action {
                 useKarma {
                     useFirefoxHeadless()
-                    if (Machine.currentMachine.system == OS.MacOS) useSafari()
                 }
             })
         }
