@@ -209,7 +209,8 @@ kotlin {
             getByName("${it.targetName}Main") {
                 dependsOn(nativeMain)
                 dependencies {
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-${it.targetName}:${LibVersions.COROUTINES}")
+                    val target = it.targetName.lowercase()
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-$target:${LibVersions.COROUTINES}")
                 }
             }
         }
