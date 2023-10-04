@@ -1,4 +1,4 @@
-name: CI Test Build
+name: CI Test Maven Publish
 
 on:
   workflow_dispatch:
@@ -23,5 +23,5 @@ jobs:
     - uses: android-actions/setup-android@v2
     - run: sdkmanager "platforms;android-33"
 
-    - name: Execute Gradle build
-      run: ./gradlew build
+    - name: Execute Gradle publishToMavenLocal
+      run: ./gradlew publishToMavenLocal
