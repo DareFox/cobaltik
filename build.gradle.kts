@@ -209,7 +209,7 @@ kotlin {
             getByName("${it.targetName}Main") {
                 dependsOn(nativeMain)
                 dependencies {
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-${it.targetName}:${LibVersions}")
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-${it.targetName}:${LibVersions.COROUTINES}")
                 }
             }
         }
