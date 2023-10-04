@@ -160,6 +160,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("io.github.oshai:kotlin-logging:${LibVersions.KOTLIN_LOGGING}")
                 implementation("io.ktor:ktor-client-core:${LibVersions.KTOR}")
                 implementation("io.ktor:ktor-client-content-negotiation:${LibVersions.KTOR}")
