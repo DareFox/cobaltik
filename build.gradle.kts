@@ -59,6 +59,7 @@ data class Machine(
 
         private fun getSystem(): OS {
             val hostProperty = System.getProperty("os.name")
+            println("getSystem(): os.name = $hostProperty")
             return when {
                 hostProperty == "Mac OS X" -> OS.MacOS
                 hostProperty == "Linux" -> OS.Linux
@@ -69,6 +70,7 @@ data class Machine(
 
         private fun getArch(): Arch {
             val arch = System.getProperty("os.arch")
+            println("getArch(): os.arch = $arch")
             return when (arch) {
                 "amd64", "x86" -> Arch.X86
                 "aarch64", "aarch32" -> Arch.Arm
@@ -113,6 +115,7 @@ kotlin {
     fun linuxTargetsX86() = listOf(linuxX64())
     fun windowsTargetsX86() = listOf(mingwX64())
 
+    println("Current machine is ${Machine.currentMachine}")
     fun getHostNativeTargets(machine: Machine): List<KotlinNativeTarget> {
         return when(machine) {
             Machine(OS.MacOS, Arch.Arm) -> darwinTargetsArm()
