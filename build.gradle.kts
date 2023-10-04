@@ -33,6 +33,7 @@ object LibVersions {
     const val KTOR = "2.2.4"
     const val KOTLIN_LOGGING = "5.0.1"
     const val SLF4J_SIMPLE = "2.0.3"
+    const val COROUTINES = "1.7.3"
 }
 
 enum class OS {
@@ -160,7 +161,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${LibVersions.COROUTINES}")
                 implementation("io.github.oshai:kotlin-logging:${LibVersions.KOTLIN_LOGGING}")
                 implementation("io.ktor:ktor-client-core:${LibVersions.KTOR}")
                 implementation("io.ktor:ktor-client-content-negotiation:${LibVersions.KTOR}")
@@ -207,6 +208,9 @@ kotlin {
         nativeHostTargets.forEach {
             getByName("${it.targetName}Main") {
                 dependsOn(nativeMain)
+                dependencies {
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-${it.targetName}:${LibVersions}")
+                }
             }
         }
     }
