@@ -2,6 +2,13 @@
 
 Kotlin Multiplaform wrapper library for media downloader Cobalt API ([cobalt.tools](http://cobalt.tools "cobalt.tools"))
 
+## What class should I use? 
+Difference between Wrapper (Cobalt) and Raw API implementation (CobaltRaw) is:
+|[Cobalt](https://github.com/DareFox/cobaltik/edit/main/README.md#using-wrapper-class-cobalt)|[CobaltRaw](https://github.com/DareFox/cobaltik/edit/main/README.md#using-raw-api-class-cobaltraw)|
+|--|--|
+|Returns response in sealed class. To get data you need to use when(response)|Returns response unwrapped so you don't need to identify class, but it contains a lot of possible nulls|
+|You can request with just url, builder, specific builder, your own custom builder or CobaltRequest|You can only request with CobaltRequest|
+
 ## Using wrapper class (Cobalt)
 ### Create simple request
 ```kotlin
