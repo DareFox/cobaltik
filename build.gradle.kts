@@ -246,10 +246,10 @@ kotlin {
 
     publishing {
         publications {
-//            onlyHostCanPublishTheseTargets(
-//                machine = Machine(OS.Linux, Arch.X86),
-//                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
-//            )
+            onlyHostCanPublishTheseTargets(
+                machine = Machine(OS.Linux, Arch.X86),
+                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
+            )
         }
     }
 }
