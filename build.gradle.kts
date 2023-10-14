@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "me.darefox"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 detekt {
     allRules = false
@@ -92,6 +92,8 @@ android {
 }
 
 kotlin {
+    withSourcesJar()
+
     fun darwinTargetsX86() = listOf(
         macosX64(),
         iosX64(),
@@ -244,10 +246,10 @@ kotlin {
 
     publishing {
         publications {
-            onlyHostCanPublishTheseTargets(
-                machine = Machine(OS.Linux, Arch.X86),
-                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
-            )
+//            onlyHostCanPublishTheseTargets(
+//                machine = Machine(OS.Linux, Arch.X86),
+//                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
+//            )
         }
     }
 }
