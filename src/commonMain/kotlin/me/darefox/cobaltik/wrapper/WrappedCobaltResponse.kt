@@ -6,7 +6,7 @@ import me.darefox.cobaltik.models.PickerType
 
 /**
  * Represents a sealed class for WrappedCobaltResponse, which can be one of the following response types.
- *
+ * @sample getSpecificResponse
  * @see ErrorResponse
  * @see RateLimitResponse
  * @see SuccessResponse
@@ -71,3 +71,13 @@ data class PickerResponse(
     val items: List<PickerItem>,
     val audioUrl: String?
 ) : WrappedCobaltResponse()
+
+private fun getSpecificResponse() {
+    lateinit var response: WrappedCobaltResponse
+    when (response) {
+        is ErrorResponse -> println("error: ${response.text}")
+        is RedirectResponse -> println("redirect: ${response.redirectUrl}")
+        is StreamResponse -> println("cobalt stream: ${response.streamUrl}")
+        else /* PickerResponse, RateLimitResponse, SuccessResponse */ -> println(response)
+    }
+}
