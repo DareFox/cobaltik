@@ -10,11 +10,15 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.nativeSpecificDependencies(
     nativeMainSourceSet: KotlinSourceSet
 ) {
     nativeHostTargets.forEach {
+        val sourceSetName = "${it.targetName}Main"
+        println("[Native SourceSet] Creating $sourceSetName source set")
         getByName("${it.targetName}Main") {
             dependsOn(nativeMainSourceSet)
             dependencies {
                 val target = it.targetName.lowercase()
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-$target:${LibraryVersions.COROUTINES}")
+                val dependency = "org.jetbrains.kotlinx:kotlinx-coroutines-core-$target:${LibraryVersions.COROUTINES}"
+                println("[Native SourceSet] Installing $dependency dependency")
+                implementation(dependency)
             }
         }
     }
