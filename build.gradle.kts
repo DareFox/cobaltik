@@ -12,8 +12,9 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.9.10"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
-    id("maven-publish")
+    `maven-publish`
     id("com.android.library")
+    signing
 }
 
 group = "me.darefox"
@@ -95,14 +96,43 @@ kotlin {
             nativeMainSourceSet = nativeMain
         )
     }
+}
 
-    publishing {
-        publications {
-            onlyHostCanPublishTheseTargets(
-                machine = Machine(OS.Linux, Arch.X86),
-                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js"),
-                tasks = tasks
+publishing {
+    publications {
+        onlyHostCanPublishTheseTargets(
+            machine = Machine(OS.Linux, Arch.X86),
+            targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js"),
+            tasks = tasks
+        )
+    }
+}
+
+signing {
+    val gpgPublicId = System.getProperty("MAVEN_GPG_PUBLIC_KEY_ID")
+    val gpgPrivateKey = System.getProperty("MAVEN_GPG_PRIVATE_KEY")
+    val gpgPrivatePassword = System.getProperty("MAVEN_GPG_PRIVATE_PASSWORD")
+
+    val envVariables = listOf(gpgPrivateKey, gpgPublicId, gpgPrivatePassword)
+
+    val allEnvVariablesSet = envVariables.all { it != null }
+    val someEnvVariablesSet = envVariables.any { it != null }
+
+    when {
+        allEnvVariablesSet -> {
+            println("[Singing] Using in memory gpg keys")
+            useInMemoryPgpKeys(
+                gpgPublicId,
+                gpgPrivateKey,
+                gpgPrivatePassword
             )
         }
+        someEnvVariablesSet -> throw Error("Some singing variables set, but not all of them")
+        else -> {
+            println("[Singing] Using system-wide gpg")
+            useGpgCmd()
+        }
     }
+
+    sign(publishing.publications)
 }
