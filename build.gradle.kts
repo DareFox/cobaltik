@@ -3,6 +3,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import host.Arch
 import host.OS
 import host.Machine
+import host.currentMachine
 import multiplatform.nativeSpecificDependencies
 import multiplatform.setupJava
 import multiplatform.setupJs
@@ -55,7 +56,7 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
-    val nativeHostTargets = setupNativeTargetsFor(Machine.currentMachine)
+    val nativeHostTargets = setupNativeTargetsFor(currentMachine)
 
     sourceSets {
         val commonMain by getting {
