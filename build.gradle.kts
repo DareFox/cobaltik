@@ -3,15 +3,16 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import host.Arch
 import host.OS
 import host.Machine
+import org.gradle.kotlin.dsl.kotlin
 
 @Suppress // to make detekt shut up and stop crashing IDE
 
 plugins {
-    kotlin("multiplatform") version "1.9.10"
+    kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.9.10"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("maven-publish")
-    id("com.android.library") version "8.1.0"
+    id("com.android.library")
 }
 
 group = "me.darefox"
