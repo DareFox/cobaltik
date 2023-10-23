@@ -4,6 +4,7 @@ import host.Arch
 import host.OS
 import host.Machine
 import multiplatform.nativeSpecificDependencies
+import multiplatform.setupJava
 import multiplatform.setupNativeTargetsFor
 import org.gradle.kotlin.dsl.kotlin
 import publication.onlyHostCanPublishTheseTargets
@@ -48,15 +49,6 @@ android {
 kotlin {
     withSourcesJar()
 
-    jvm {
-        jvmToolchain(8)
-        testRuns.named("test") {
-            executionTask.configure {
-                useJUnitPlatform()
-            }
-        }
-
-    }
     js {
         browser {
             generateTypeScriptDefinitions()
@@ -73,6 +65,7 @@ kotlin {
             })
         }
     }
+    setupJava()
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
