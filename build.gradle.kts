@@ -5,6 +5,7 @@ import host.OS
 import host.Machine
 import multiplatform.setupNativeTargetsFor
 import org.gradle.kotlin.dsl.kotlin
+import publication.onlyHostCanPublishTheseTargets
 
 @Suppress // to make detekt shut up and stop crashing IDE
 
@@ -141,35 +142,12 @@ kotlin {
         }
     }
 
-    fun PublicationContainer.onlyHostCanPublishTheseTargets(
-        machine: Machine,
-        targets: List<String>
-    ) {
-        matching { it.name in targets }.all {
-            val targetPublication = this@all
-
-            tasks.withType<AbstractPublishToMaven>()
-                .matching { (it.publication == targetPublication) }
-                .configureEach {
-                    onlyIf {
-                        val canPublish = Machine.currentMachine == machine
-                        when(canPublish) {
-                            true ->
-                                println("Current host ($machine) can publish ${targetPublication.name} target")
-                            false ->
-                                println("Only $machine can publish ${targetPublication.name} target")
-                        }
-                        canPublish
-                    }
-                }
-        }
-    }
-
     publishing {
         publications {
             onlyHostCanPublishTheseTargets(
                 machine = Machine(OS.Linux, Arch.X86),
-                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
+                targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js"),
+                tasks = tasks
             )
         }
     }
