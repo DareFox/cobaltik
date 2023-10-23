@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import host.Arch
 import host.OS
 import host.Machine
+import multiplatform.nativeSpecificDependencies
 import multiplatform.setupNativeTargetsFor
 import org.gradle.kotlin.dsl.kotlin
 import publication.onlyHostCanPublishTheseTargets
@@ -131,15 +132,10 @@ kotlin {
             }
         }
         val nativeTest by creating
-        nativeHostTargets.forEach {
-            getByName("${it.targetName}Main") {
-                dependsOn(nativeMain)
-                dependencies {
-                    val target = it.targetName.lowercase()
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-$target:${LibVersions.COROUTINES}")
-                }
-            }
-        }
+        nativeSpecificDependencies(
+            nativeHostTargets = nativeHostTargets,
+            nativeMainSourceSet = nativeMain
+        )
     }
 
     publishing {
