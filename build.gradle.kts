@@ -1,14 +1,7 @@
 import dependencies.Library
 import io.gitlab.arturbosch.detekt.Detekt
-import host.Arch
-import host.OS
-import host.Machine
-import host.currentMachine
-import multiplatform.nativeSpecificDependencies
-import multiplatform.setupJava
-import multiplatform.setupJs
-import multiplatform.setupNativeTargetsFor
-import org.gradle.kotlin.dsl.kotlin
+import host.*
+import multiplatform.*
 import publication.onlyHostCanPublishTheseTargets
 
 @Suppress // to make detekt shut up and stop crashing IDE
