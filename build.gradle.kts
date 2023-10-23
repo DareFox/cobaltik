@@ -1,5 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import host.Arch
+import host.OS
+import host.Machine
 
 @Suppress // to make detekt shut up and stop crashing IDE
 
@@ -35,52 +38,6 @@ object LibVersions {
     const val SLF4J_SIMPLE = "2.0.3"
     const val COROUTINES = "1.7.3"
 }
-
-enum class OS {
-    MacOS,
-    Linux,
-    Windows,
-    Other
-}
-
-enum class Arch {
-    Arm,
-    X86,
-    Other
-}
-
-data class Machine(
-    val system: OS,
-    val arch: Arch
-) {
-    companion object {
-        val currentMachine by lazy {
-            Machine(getSystem(), getArch())
-        }
-
-        private fun getSystem(): OS {
-            val hostProperty = System.getProperty("os.name")
-            println("getSystem(): os.name = $hostProperty")
-            return when {
-                hostProperty == "Mac OS X" -> OS.MacOS
-                hostProperty == "Linux" -> OS.Linux
-                hostProperty.startsWith("Windows") -> OS.Windows
-                else -> OS.Other
-            }
-        }
-
-        private fun getArch(): Arch {
-            val arch = System.getProperty("os.arch")
-            println("getArch(): os.arch = $arch")
-            return when (arch) {
-                "amd64", "x86", "x86_64" -> Arch.X86
-                "aarch64", "aarch32" -> Arch.Arm
-                else -> Arch.Other
-            }
-        }
-    }
-}
-
 
 android {
     compileSdk = 33
