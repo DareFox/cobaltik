@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import host.Arch
 import host.OS
 import host.Machine
+import multiplatform.setupNativeTargetsFor
 import org.gradle.kotlin.dsl.kotlin
 
 @Suppress // to make detekt shut up and stop crashing IDE
@@ -52,42 +53,6 @@ android {
 kotlin {
     withSourcesJar()
 
-    fun darwinTargetsX86() = listOf(
-        macosX64(),
-        iosX64(),
-        watchosX64(),
-        tvosX64(),
-    )
-    fun darwinTargetsArm() = listOf(
-        macosArm64(),
-
-        iosSimulatorArm64(),
-        iosArm64(),
-
-        watchosSimulatorArm64(),
-        watchosArm32(),
-        watchosArm64(),
-        watchosDeviceArm64(),
-
-        tvosSimulatorArm64(),
-        tvosArm64(),
-    )
-    fun linuxTargetsArm() = listOf(linuxArm64())
-    fun linuxTargetsX86() = listOf(linuxX64())
-    fun windowsTargetsX86() = listOf(mingwX64())
-
-    println("Current machine is ${Machine.currentMachine}")
-    fun getHostNativeTargets(machine: Machine): List<KotlinNativeTarget> {
-        return when(machine) {
-            Machine(OS.MacOS, Arch.Arm) -> darwinTargetsArm()
-            Machine(OS.MacOS, Arch.X86) -> darwinTargetsX86()
-            Machine(OS.Linux, Arch.Arm) -> linuxTargetsArm()
-            Machine(OS.Linux, Arch.X86) -> linuxTargetsX86()
-            Machine(OS.Windows, Arch.X86) -> windowsTargetsX86()
-            else -> listOf()
-        }
-    }
-
     jvm {
         jvmToolchain(8)
         testRuns.named("test") {
@@ -116,7 +81,7 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
-    val nativeHostTargets = getHostNativeTargets(Machine.currentMachine)
+    val nativeHostTargets = setupNativeTargetsFor(Machine.currentMachine)
 
     sourceSets {
         val commonMain by getting {
@@ -175,8 +140,6 @@ kotlin {
             }
         }
     }
-
-
 
     fun PublicationContainer.onlyHostCanPublishTheseTargets(
         machine: Machine,
