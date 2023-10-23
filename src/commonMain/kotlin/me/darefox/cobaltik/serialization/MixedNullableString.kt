@@ -10,13 +10,14 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
+import me.darefox.cobaltik.extensions.logger
 
 /**
  * Serializer for handling nullable String values with a mixed representation of string and null as boolean/null.
  */
 object MixedNullableString : KSerializer<String?> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("MixedNullableString", PrimitiveKind.STRING)
-
+    private val logger = logger {  }
     @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: String?) {
         if (value != null)
@@ -36,7 +37,10 @@ object MixedNullableString : KSerializer<String?> {
         } else {
             when (json.booleanOrNull) {
                 false, null -> null
-                else -> decoder.decodeString() // create exception
+                else -> {
+                    logger.error { "Json primitive ($json) is not a string, false nor null" }
+                    decoder.decodeString() // create exception
+                }
             }
         }
     }
