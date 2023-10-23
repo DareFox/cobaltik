@@ -5,6 +5,7 @@ import host.OS
 import host.Machine
 import multiplatform.nativeSpecificDependencies
 import multiplatform.setupJava
+import multiplatform.setupJs
 import multiplatform.setupNativeTargetsFor
 import org.gradle.kotlin.dsl.kotlin
 import publication.onlyHostCanPublishTheseTargets
@@ -49,23 +50,8 @@ android {
 kotlin {
     withSourcesJar()
 
-    js {
-        browser {
-            generateTypeScriptDefinitions()
-            testTask(Action {
-                useKarma {
-                    useFirefoxHeadless()
-                }
-            })
-        }
-        nodejs {
-            generateTypeScriptDefinitions()
-            testTask(Action {
-                useMocha()
-            })
-        }
-    }
     setupJava()
+    setupJs()
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
