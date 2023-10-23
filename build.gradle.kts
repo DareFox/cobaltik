@@ -1,5 +1,5 @@
+import dependencies.Library
 import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import host.Arch
 import host.OS
 import host.Machine
@@ -36,13 +36,6 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
-object LibVersions {
-    const val KTOR = "2.2.4"
-    const val KOTLIN_LOGGING = "5.0.1"
-    const val SLF4J_SIMPLE = "2.0.3"
-    const val COROUTINES = "1.7.3"
-}
-
 android {
     compileSdk = 33
     defaultConfig {
@@ -73,7 +66,7 @@ kotlin {
                 }
             })
         }
-        nodejs() {
+        nodejs {
             generateTypeScriptDefinitions()
             testTask(Action {
                 useMocha()
@@ -88,11 +81,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${LibVersions.COROUTINES}")
-                implementation("io.github.oshai:kotlin-logging:${LibVersions.KOTLIN_LOGGING}")
-                implementation("io.ktor:ktor-client-core:${LibVersions.KTOR}")
-                implementation("io.ktor:ktor-client-content-negotiation:${LibVersions.KTOR}")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:${LibVersions.KTOR}")
+                implementation(Library.COROUTINES_CORE)
+                implementation(Library.KOTLIN_LOGGING)
+                implementation(Library.KTOR_CLIENT_CORE)
+                implementation(Library.KTOR_CLIENT_NEGOTIATION)
+                implementation(Library.KTOR_SERIALIZATION_JSON)
             }
         }
         val commonTest by getting {
@@ -101,25 +94,17 @@ kotlin {
             }
         }
         val androidMain by getting {
-            dependencies {
-                runtimeOnly("io.ktor:ktor-client-android:${LibVersions.KTOR}")
-            }
+            dependencies.runtimeOnly(Library.KTOR_CLIENT_ANDROID)
         }
         val androidTest by creating
         val jvmMain by getting {
-            dependencies {
-                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
-            }
+            dependencies.runtimeOnly(Library.KTOR_CLIENT_CIO)
         }
         val jvmTest by getting {
-            dependencies {
-                runtimeOnly("org.slf4j:slf4j-simple:${LibVersions.SLF4J_SIMPLE}")
-            }
+            dependencies.runtimeOnly(Library.SLF4J_SIMPLE)
         }
         val jsMain by getting {
-            dependencies {
-                runtimeOnly("io.ktor:ktor-client-js:${LibVersions.KTOR}")
-            }
+            dependencies.runtimeOnly(Library.KTOR_CLIENT_JS)
         }
         val jsTest by getting {
             dependencies {
@@ -127,9 +112,7 @@ kotlin {
             }
         }
         val nativeMain by creating {
-            dependencies {
-                runtimeOnly("io.ktor:ktor-client-cio:${LibVersions.KTOR}")
-            }
+            dependencies.runtimeOnly(Library.KTOR_CLIENT_CIO)
         }
         val nativeTest by creating
         nativeSpecificDependencies(
