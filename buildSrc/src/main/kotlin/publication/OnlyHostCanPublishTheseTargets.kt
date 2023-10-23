@@ -6,6 +6,7 @@ import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.kotlin.dsl.withType
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskContainer
+import host.currentMachine
 
 fun PublicationContainer.onlyHostCanPublishTheseTargets(
     machine: Machine,
@@ -19,7 +20,7 @@ fun PublicationContainer.onlyHostCanPublishTheseTargets(
             .matching { (it.publication == targetPublication) }
             .configureEach {
                 onlyIf {
-                    val canPublish = Machine.currentMachine == machine
+                    val canPublish = currentMachine == machine
                     when(canPublish) {
                         true ->
                             println("Current host ($machine) can publish ${targetPublication.name} target")
