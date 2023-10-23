@@ -1,4 +1,6 @@
 import dependencies.Library
+import dependencies.LibraryVersions
+import dependencies.kotlinRuntimeOnly
 import io.gitlab.arturbosch.detekt.Detekt
 import host.*
 import multiplatform.*
@@ -67,17 +69,17 @@ kotlin {
             }
         }
         val androidMain by getting {
-            dependencies.runtimeOnly(Library.KTOR_CLIENT_ANDROID)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_ANDROID)
         }
         val androidTest by creating
         val jvmMain by getting {
-            dependencies.runtimeOnly(Library.KTOR_CLIENT_CIO)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
         }
         val jvmTest by getting {
-            dependencies.runtimeOnly(Library.SLF4J_SIMPLE)
+            kotlinRuntimeOnly(Library.SLF4J_SIMPLE)
         }
         val jsMain by getting {
-            dependencies.runtimeOnly(Library.KTOR_CLIENT_JS)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_JS)
         }
         val jsTest by getting {
             dependencies {
@@ -85,7 +87,7 @@ kotlin {
             }
         }
         val nativeMain by creating {
-            dependencies.runtimeOnly(Library.KTOR_CLIENT_CIO)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
         }
         val nativeTest by creating
         nativeSpecificDependencies(
