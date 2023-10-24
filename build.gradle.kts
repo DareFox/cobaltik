@@ -98,15 +98,11 @@ kotlin {
     }
 }
 
-publishing {
-    publications {
-        onlyHostCanPublishTheseTargets(
-            machine = Machine(OS.Linux, Arch.X86),
-            targets = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js"),
-            tasks = tasks
-        )
-    }
-}
+
+onlyHostCanPublishTheseTargets(
+    publishingMachine = Machine(OS.Linux, Arch.X86),
+    target = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
+)
 
 signing {
     val gpgPublicId = System.getProperty("MAVEN_GPG_PUBLIC_KEY_ID")
