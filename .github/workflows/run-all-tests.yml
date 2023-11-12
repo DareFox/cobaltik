@@ -31,7 +31,8 @@ jobs:
 
     - name: Save Kotlin ver to env
       run: .github/scripts/save-kotlin-ver-to-env.sh
-
+      shell: bash
+      
     - name: Execute Gradle allTests
       run: ./gradlew allTests  --scan
 
