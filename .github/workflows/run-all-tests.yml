@@ -30,5 +30,7 @@ jobs:
       run: sdkmanager "platforms;android-33"
 
     - name: Execute Gradle allTests
+      env:
+        KONAN_DATA_DIR: ~/.gradle/caches/konan
       run: ./gradlew allTests  --scan
 
