@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export KOTLIN_VER=$(cat buildSrc/build.gradle.kts | grep 'KOTLIN_VER.*' -o | grep -P -oh '(?<=").*(?=")')
+export KOTLIN_VER=$(cat build.gradle.kts  | sed -n -E 's/val KOTLIN_VER.*=( |)//p' | sed 's/"//g')
 
 if [[ -z "$KOTLIN_VER" ]]; then
         echo "Cant grep KOTLIN_VER"
