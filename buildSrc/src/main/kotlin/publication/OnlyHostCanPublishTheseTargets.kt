@@ -4,6 +4,7 @@ import host.Machine
 import org.gradle.api.Project
 import host.currentMachine
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
+import gradle.excludeTasks
 
 fun Project.onlyHostCanPublishTheseTargets(
     publishingMachine: Machine,
@@ -11,12 +12,9 @@ fun Project.onlyHostCanPublishTheseTargets(
 ) {
     val excludedTasks = target.map(::getPublishTaskName)
 
+    // Machine is just data class with two system properties (OS and Architecture)
     if (publishingMachine != currentMachine) {
-        val excludedTaskStringList = "- ${excludedTasks.joinToString("\n- ")}"
-
-        println("[Publishing] These tasks are excluded because $currentMachine can't publish these targets:")
-        println(excludedTaskStringList)
-        gradle.startParameter.excludedTaskNames.addAll(excludedTasks)
+        excludeTasks(excludedTasks, "$currentMachine can't publish these targets")
     }
 }
 

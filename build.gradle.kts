@@ -1,6 +1,6 @@
 import dependencies.Library
-import dependencies.LibraryVersions
 import dependencies.kotlinRuntimeOnly
+import gradle.onlyHostCanDoTheseTasks
 import io.gitlab.arturbosch.detekt.Detekt
 import host.*
 import multiplatform.*
@@ -99,11 +99,19 @@ kotlin {
     }
 }
 
-
+// PUBLISHING
 onlyHostCanPublishTheseTargets(
     publishingMachine = Machine(OS.Linux, Arch.X86),
     target = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
 )
+
+// TESTING
+onlyHostCanDoTheseTasks(
+    machine = Machine(OS.Linux, Arch.X86),
+    tasks = listOf("testDebugUnitTest", "testReleaseUnitTest", "jvmTest"), // android + jvm
+    reasonForExcluding = "$currentMachine will skip these targets to remove duplication of tests"
+)
+
 
 signing {
     val gpgPublicId = System.getProperty("MAVEN_GPG_PUBLIC_KEY_ID")
