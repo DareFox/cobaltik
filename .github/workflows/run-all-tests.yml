@@ -17,6 +17,16 @@ jobs:
       with:
         distribution: temurin
         java-version: 17
+
+    - name: Get Kotlin version of project
+      id: properties
+      uses: christian-draeger/read-properties@1.1.1
+      with:
+        path: './gradle.properties'
+        properties: 'kotlin.version'
+
+    - name: Print Kotlin version
+      run: echo ${{ steps.properties.outputs.kotlin-version }}
     
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
@@ -29,10 +39,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sdkmanager "platforms;android-33"
 
-    - name: Save Kotlin ver to env
-      run: .github/scripts/save-kotlin-ver-to-env.sh
-      shell: bash
-      
+
     - name: Execute Gradle allTests
       run: ./gradlew allTests  --scan
 
