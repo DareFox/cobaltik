@@ -1,6 +1,8 @@
 name: Run all tests
 on:
   workflow_dispatch:
+  push:
+  pull_request:
 
 jobs:
   test:
@@ -20,7 +22,8 @@ jobs:
       uses: gradle/gradle-build-action@v2
     
     - uses: android-actions/setup-android@v2
-    - run: sdkmanager "platforms;android-33"
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: sdkmanager "platforms;android-33"
 
     - name: Execute Gradle allTests
       run: ./gradlew allTests  --scan
