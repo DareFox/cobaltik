@@ -22,11 +22,11 @@ jobs:
       id: properties
       uses: madhead/read-java-properties@latest
       with:
-        file: './gradle.properties'
+        file: './buildSrc/gradle.properties'
         property: 'kotlin.version'
 
     - name: Print Kotlin version
-      run: echo ${{ steps.properties.outputs.kotlin-version }}
+      run: echo ${{ steps.properties.outputs.value }}
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
