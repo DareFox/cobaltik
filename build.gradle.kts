@@ -10,7 +10,7 @@ import publication.onlyHostCanPublishTheseTargets
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.20"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     `maven-publish`
     id("com.android.library")

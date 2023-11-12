@@ -6,7 +6,7 @@ repositories.gradlePluginPortal()
 repositories.google()
 repositories.mavenCentral()
 
-val KOTLIN_VER = "1.9.10"
+val KOTLIN_VER = "1.9.20"
 val ANDROD_TOOLS_VER = "8.1.0"
 
 dependencies {
