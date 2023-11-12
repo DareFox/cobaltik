@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 
 fun KotlinMultiplatformExtension.darwinTargetsX86() = listOf(
-//    macosX64(),
+    macosX64(),
     iosX64(),
 //    watchosX64(),
 //    tvosX64(),
@@ -24,5 +24,5 @@ fun KotlinMultiplatformExtension.darwinTargetsArm() = listOf(
     tvosArm64(),
 )
 fun KotlinMultiplatformExtension.linuxTargetsArm() = listOf(linuxArm64())
-fun KotlinMultiplatformExtension.linuxTargetsX86() = listOf(linuxX64())
+fun KotlinMultiplatformExtension.linuxTargetsX86() = listOf(linuxX64(), mingwX64())
 fun KotlinMultiplatformExtension.windowsTargetsX86() = listOf(mingwX64())
