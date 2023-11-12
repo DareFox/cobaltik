@@ -31,6 +31,6 @@ jobs:
 
     - name: Execute Gradle allTests
       env:
-        KONAN_DATA_DIR: ~/.gradle/caches/konan
+        KONAN_DATA_DIR: ${{env.HOME}}/.gradle/caches/konan
       run: ./gradlew allTests  --scan
 
