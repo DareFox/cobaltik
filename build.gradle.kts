@@ -88,6 +88,7 @@ kotlin {
             }
         }
         val nativeMain by creating {
+            dependsOn(commonMain)
             kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
         }
         val nativeTest by creating
