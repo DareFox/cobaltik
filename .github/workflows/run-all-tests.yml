@@ -26,6 +26,13 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.konan
+        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
+
+    - name: Delete old cache
+      uses: prantlf/delete-cache-action@v2
+      with:
         key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
 
     - name: Setup Gradle
