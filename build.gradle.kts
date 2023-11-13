@@ -18,7 +18,7 @@ plugins {
 }
 
 group = "me.darefox"
-version = "1.0"
+version = "1.0.0"
 
 detekt {
     allRules = false
