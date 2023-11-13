@@ -1,4 +1,6 @@
 name: Run all tests
+permissions:
+  actions: write
 on:
   workflow_dispatch:
   push:
