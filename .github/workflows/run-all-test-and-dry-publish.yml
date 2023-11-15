@@ -1,4 +1,4 @@
-name: Run all tests
+name: Run all tests and test publishToMavenLocal
 permissions:
   actions: write
 on:
@@ -50,7 +50,6 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sdkmanager "platforms;android-33"
 
-
     - name: Execute Gradle allTests
-      run: ./gradlew allTests  --scan
+      run: ./gradlew allTests publishToMavenLocal --scan
 
