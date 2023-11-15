@@ -57,5 +57,8 @@ jobs:
       run: sdkmanager "platforms;android-33"
 
     - name: Execute Gradle allTests
-      run: ./gradlew allTests publishToMavenLocal --scan
+      run: ./gradlew allTests --scan
+
+    - name: Execute Gradle publishToMavenLocal
+      run: ./gradlew publishToMavenLocal --scan
 
