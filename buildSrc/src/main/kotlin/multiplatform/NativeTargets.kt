@@ -16,7 +16,6 @@ fun KotlinMultiplatformExtension.darwinTargetsArm() = listOf(
     iosArm64(),
 
     watchosSimulatorArm64(),
-    watchosArm32(),
     watchosArm64(),
     watchosDeviceArm64(),
 
