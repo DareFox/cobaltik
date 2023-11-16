@@ -67,5 +67,5 @@ jobs:
       uses: actions/cache/save@v3
       if: always()
       with:
-        path: ~/.kona
+        path: ~/.konan
         key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
