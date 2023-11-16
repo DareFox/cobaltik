@@ -8,7 +8,7 @@ fun KotlinMultiplatformExtension.darwinTargetsX86() = listOf(
     iosX64(),
     watchosX64(),
     tvosX64(),
-) + darwinTargetsArm()
+)
 fun KotlinMultiplatformExtension.darwinTargetsArm() = listOf(
     macosArm64(),
 
