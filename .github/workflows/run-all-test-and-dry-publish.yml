@@ -30,20 +30,13 @@ jobs:
       run: .github/scripts/save-kotlin-ver-to-env.sh
       shell: bash
 
-    - name: Setup Konan cache
+    - name: Restore Konan cache
       uses: actions/cache@v3
       with:
         path: ~/.konan
         key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
-
-    - name: Delete old cache
-      uses: DareFox/delete-cache-by-key@v1
-      with:
-        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
-        attempts: 3
-        mode: startsWith
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
@@ -62,3 +55,17 @@ jobs:
     - name: Execute Gradle publishToMavenLocal
       run: ./gradlew publishToMavenLocal --scan
 
+    - name: Delete old cache
+      uses: DareFox/delete-cache-by-key@v1
+      if: always()
+      with:
+        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
+        attempts: 3
+        mode: startsWith
+
+    - name: Save Konan cache
+      uses: actions/cache/save@v3
+      if: always()
+      with:
+        path: ~/.kona
+        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
