@@ -10,8 +10,8 @@ fun KotlinMultiplatformExtension.setupNativeTargetsFor(machine: Machine): List<K
     return when(machine) {
         Machine(OS.MacOS, Arch.Arm),
         Machine(OS.MacOS, Arch.X86) -> darwinTargetsX86() + darwinTargetsArm()
-        Machine(OS.Linux, Arch.Arm),
-        Machine(OS.Linux, Arch.X86) -> linuxTargetsX86() + linuxTargetsArm()
+        Machine(OS.Linux, Arch.Arm) -> linuxTargetsArm()
+        Machine(OS.Linux, Arch.X86) -> linuxTargetsX86()
         Machine(OS.Windows, Arch.X86) -> windowsTargetsX86()
         else -> listOf()
     }
