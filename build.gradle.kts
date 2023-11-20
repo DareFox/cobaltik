@@ -112,6 +112,46 @@ onlyHostCanDoTheseTasks(
     reasonForExcluding = "$currentMachine will skip these targets to remove duplication of tests"
 )
 
+publishing {
+    repositories {
+        maven {
+            name = "sonatype"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+            credentials {
+                username = System.getProperty("SONATYPE_USERNAME")
+                password = System.getProperty("SONATYPE_PASSWORD")
+            }
+        }
+    }
+
+    publications.withType<MavenPublication> {
+        pom {
+            name.set("Cobaltik")
+            description.set("Kotlin multi-platform library wrapper for cobalt (media downloader) API")
+            url.set("https://github.com/DareFox/cobaltik")
+
+            licenses {
+                license {
+                    name.set("MIT")
+                    url.set("https://opensource.org/license/MIT/")
+                }
+            }
+            developers {
+                developer {
+                    id.set("darefox")
+                    name.set("DareFox")
+                    email.set("darefoxdev@gmail.com")
+                }
+            }
+            scm {
+                connection.set("scm:git:git://github.com/DareFox/cobaltik.git")
+                developerConnection.set("scm:git:ssh://github.com/DareFox/cobaltik.git")
+                url.set("https://github.com/DareFox/cobaltik")
+            }
+        }
+    }
+}
+
 
 signing {
     val gpgPublicId = System.getProperty("MAVEN_GPG_PUBLIC_KEY_ID")
