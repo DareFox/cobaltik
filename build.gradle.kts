@@ -120,7 +120,11 @@ publishing {
         if (isPublishing) {
             maven {
                 name = "sonatype"
-                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                url = if (isSnapshot) {
+                    uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                } else {
+                    uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                }
                 credentials {
                     username = System.getProperty("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
                     password = System.getProperty("SONATYPE_PASSWORD") ?: throw Error("env SONATYPE_PASSWORD is empty")
