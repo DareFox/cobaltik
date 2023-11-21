@@ -49,11 +49,8 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sdkmanager "platforms;android-33"
 
-    - name: Execute Gradle allTests
-      run: ./gradlew allTests --scan
-
-    - name: Execute Gradle publishToMavenLocal
-      run: ./gradlew publishToMavenLocal --scan
+    - name: Execute Gradle build, allTests and publishToMavenLocal
+      run: ./gradlew build allTests publishToMavenLocal --scan
 
     - name: Delete old cache
       uses: DareFox/delete-cache-by-key@v1
