@@ -20,6 +20,10 @@ plugins {
 
 val isPublishing = getBooleanProperty("IS_PUBLISHING") ?: false
 val isSnapshot = getBooleanProperty("IS_SNAPSHOT") ?: true
+
+println("isPublishing: $isPublishing")
+println("isSnapshot: $isSnapshot")
+
 group = "me.darefox"
 version = "1.0.0" + if (isSnapshot) "-SNAPSHOT" else ""
 
