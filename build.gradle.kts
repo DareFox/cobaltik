@@ -5,6 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import host.*
 import multiplatform.*
 import publication.onlyHostCanPublishTheseTargets
+import gradle.getBooleanProperty
 
 @Suppress // to make detekt shut up and stop crashing IDE
 
@@ -16,6 +17,8 @@ plugins {
     id("com.android.library")
     signing
 }
+
+val isPublishing = System.getBooleanProperty("IS_PUBLISHING") ?: false
 
 group = "me.darefox"
 version = "1.0.0"
@@ -98,10 +101,6 @@ kotlin {
         )
     }
 }
-
-val isPublishing = System.getProperty("IS_PUBLISHING")
-    ?.lowercase()
-    ?.toBooleanStrictOrNull() ?: false
 
 // PUBLISHING
 onlyHostCanPublishTheseTargets(
