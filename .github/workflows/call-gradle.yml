@@ -1,10 +1,13 @@
-name: Run all tests and test publishToMavenLocal
+name: Run all tests and test publishing
 permissions:
   actions: write
 on:
-  workflow_dispatch:
-  push:
-  pull_request:
+  workflow_call:
+    inputs:
+      gradle-tasks:
+        type: string
+        required: true
+        description: tasks (separated by space) to run sequentially
 
 jobs:
   test:
@@ -49,11 +52,14 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sdkmanager "platforms;android-33"
 
-    - name: Execute Gradle allTests
-      run: ./gradlew allTests --scan
+    - name: Save tasks to env variable
+      run: echo "GRADLE_TASKS=${{ inputs.gradle-tasks }}" >> "$GITHUB_ENV"
 
-    - name: Execute Gradle publishToMavenLocal
-      run: ./gradlew publishToMavenLocal --scan
+    - name: Execute Gradle tasks
+      run: |
+        for task in $GRADLE_TASKS; do
+          ./gradlew "$task" --scan;
+        done
 
     - name: Delete old cache
       uses: DareFox/delete-cache-by-key@v1

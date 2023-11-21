@@ -1,0 +1,8 @@
+name: Run tests for all targets and test publishing
+on:
+    workflow_dispatch:
+jobs:
+  test-targets-and-publish: 
+    uses: ./.github/workflows/call-gradle.yml
+    with:
+      gradle-tasks: allTests publishToMavenLocal
