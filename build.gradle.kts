@@ -20,12 +20,16 @@ plugins {
 
 val isPublishing = getBooleanProperty("IS_PUBLISHING") ?: false
 val isSnapshot = getBooleanProperty("IS_SNAPSHOT") ?: true
+val propertyVersion = providers.gradleProperty("project.version").get()
 
 println("isPublishing: $isPublishing")
 println("isSnapshot: $isSnapshot")
+println("propertyVersion: $propertyVersion")
 
 group = "me.darefox"
-version = "1.0.0" + if (isSnapshot) "-SNAPSHOT" else ""
+version = propertyVersion + if (isSnapshot) "-SNAPSHOT" else ""
+
+println("version: $version")
 
 detekt {
     allRules = false
