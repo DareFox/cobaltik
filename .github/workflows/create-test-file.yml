@@ -1,8 +1,0 @@
-on: workflow_call
-jobs:
-  create_file:
-    runs-on: ubuntu-latest
-    steps:
-      - name: create file
-        run: touch newfile
-        shell: bash
