@@ -19,8 +19,9 @@ plugins {
 }
 
 val isPublishing = getBooleanProperty("IS_PUBLISHING") ?: false
+val isSnapshot = getBooleanProperty("IS_SNAPSHOT") ?: true
 group = "me.darefox"
-version = "1.0.0"
+version = "1.0.0" + if (isSnapshot) "-SNAPSHOT" else ""
 
 detekt {
     allRules = false
