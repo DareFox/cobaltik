@@ -18,8 +18,7 @@ plugins {
     signing
 }
 
-val isPublishing = System.getBooleanProperty("IS_PUBLISHING") ?: false
-
+val isPublishing = getBooleanProperty("IS_PUBLISHING") ?: false
 group = "me.darefox"
 version = "1.0.0"
 
