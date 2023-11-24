@@ -1,0 +1,72 @@
+name: Run all tests and test publishing on PR
+permissions:
+  actions: write
+on:
+  pull_request:
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: 17
+
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v6
+      with:
+        gpg_private_key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.MAVEN_GPG_PRIVATE_PASSWORD }}
+
+    - name: Save Kotlin ver to env
+      run: .github/scripts/save-kotlin-ver-to-env.sh
+      shell: bash
+
+    - name: Restore Konan cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+
+    - name: Setup Android
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      uses: android-actions/setup-android@v2
+
+    - name: Install Android-33
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: sdkmanager "platforms;android-33"
+
+    - name: Run gradle allTests
+      run:
+        ./gradlew allTests --scan
+      shell: bash
+
+    - name: Run gradle publishToMavenLocal
+      run:
+        ./gradlew publishToMavenLocal --scan
+      shell: bash
+
+    - name: Delete old cache
+      uses: DareFox/delete-cache-by-key@v1
+      if: always()
+      with:
+        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}
+        attempts: 3
+        mode: startsWith
+
+    - name: Save Konan cache
+      uses: actions/cache/save@v3
+      if: always()
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
