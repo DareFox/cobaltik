@@ -1,14 +1,8 @@
-name: Run all tests and test publishing
+name: Run all tests and test publishing on PR
 permissions:
   actions: write
 on:
-  workflow_call:
-    inputs:
-      gradle-tasks:
-        type: string
-        required: true
-        description: tasks (separated by space) to run sequentially
-
+  pull_request:
 jobs:
   test:
     strategy:
@@ -52,14 +46,15 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sdkmanager "platforms;android-33"
 
-    - name: Save tasks to env variable
-      run: echo "GRADLE_TASKS=${{ inputs.gradle-tasks }}" >> "$GITHUB_ENV"
+    - name: Run gradle allTests
+      run:
+        ./gradlew allTests --scan
+      shell: bash
 
-    - name: Execute Gradle tasks
-      run: |
-        for task in $GRADLE_TASKS; do
-          ./gradlew "$task" --scan;
-        done
+    - name: Run gradle publishToMavenLocal
+      run:
+        ./gradlew publishToMavenLocal --scan
+      shell: bash
 
     - name: Delete old cache
       uses: DareFox/delete-cache-by-key@v1
