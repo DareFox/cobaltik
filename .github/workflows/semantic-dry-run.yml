@@ -33,7 +33,9 @@ jobs:
         id: semantic
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
       - name: Save combined version to output
+        if: ${{ steps.semantic.outputs.new_release_published }}
         id: bash-script
         run: |
           echo new_combined_version=\
