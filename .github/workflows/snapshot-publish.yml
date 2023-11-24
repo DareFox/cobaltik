@@ -90,5 +90,6 @@ jobs:
           key: ${{ runner.os }}-konan-v${{ env.KOTLIN_VER }}-run${{ github.run_id }}
 
   semantic-publish:
+    needs: test-and-publish-snapshot
     uses: ./.github/workflows/semantic-publish.yml
     secrets: inherit
