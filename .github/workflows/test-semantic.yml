@@ -1,6 +1,7 @@
 name: Check semantic release outputs on dry run
 permissions:
   actions: write
+  contents: write
 on:
   workflow_dispatch:
 jobs:
