@@ -19,9 +19,9 @@ jobs:
       - name: Save new version as env variable
         run: |
           echo NEW_VER=\
-          ${{ jobs.semantic.outputs.new_major_version }}.\
-          ${{ jobs.semantic.outputs.new_minor_version }}.\
-          ${{ jobs.semantic.outputs.new_patch_version }}" >> "$GITHUB_ENV"
+          ${{ steps.semantic.outputs.new_major_version }}.\
+          ${{ steps.semantic.outputs.new_minor_version }}.\
+          ${{ steps.semantic.outputs.new_patch_version }}" >> "$GITHUB_ENV"
         shell: bash
 
       - name: Change version in file
