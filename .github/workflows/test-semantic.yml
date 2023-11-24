@@ -1,4 +1,4 @@
-name: Run tests and publish snapshot if needed
+name: Check semantic release outputs on dry run`
 permissions:
   actions: write
 on:
