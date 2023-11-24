@@ -17,7 +17,7 @@ on:
         value: ${{ jobs.semantic-dry-run.outputs.new_combined_version }}
 jobs:
   semantic-dry-run:
-    runs-on: ubutu-latest
+    runs-on: ubuntu-latest
     outputs:
       release_triggered: ${{ steps.semantic.outputs.new_release_published }}
       new_major_version: ${{ steps.semantic.outputs.new_release_major_version }}
