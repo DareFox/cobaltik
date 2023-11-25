@@ -80,6 +80,8 @@ jobs:
         env:
           IS_PUBLISHING: true
           IS_SNAPSHOT: false
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
 
       - name: Delete old cache
         uses: DareFox/delete-cache-by-key@v1
