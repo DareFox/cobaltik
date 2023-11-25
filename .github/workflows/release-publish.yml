@@ -60,8 +60,8 @@ jobs:
       - name: Change version in file on bump
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
         run: |
-          cat gradle.properties | sed -E "s/project.version=.*\$/project.version=${{ needs.semantic-dry-run.outputs.new_combined_version }}/gm" \ 
-          > tempfile; mv tempfile gradle.properties
+          cat gradle.properties | sed -E "s/project.version=.*\$/project.version=${{ needs.semantic-dry-run.outputs.new_combined_version }}/gm" > tempfile; 
+          mv tempfile gradle.properties
         shell: bash
 
       - name: Log gradle.properties
