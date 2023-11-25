@@ -137,7 +137,7 @@ publishing {
                 url = if (isSnapshot) {
                     uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
                 } else {
-                    uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                    uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 }
                 credentials {
                     username = System.getenv("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
