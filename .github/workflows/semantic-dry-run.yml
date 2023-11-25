@@ -6,7 +6,7 @@ on:
   workflow_call:
     outputs:
       release_triggered:
-        description: boolean. true if semantic-release bumps version, else false
+        description: string. true if semantic-release bumps version, else false
         value: ${{ jobs.semantic-dry-run.outputs.new_release_published }}
       new_major_version:
         value: ${{ jobs.semantic-dry-run.outputs.new_major_version }}
