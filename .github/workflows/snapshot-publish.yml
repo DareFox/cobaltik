@@ -69,6 +69,10 @@ jobs:
           > tempfile; mv tempfile gradle.properties
         shell: bash
 
+      - name: Log gradle.properties
+        run: cat gradle.properties
+        shell: bash
+
       - name: Execute Gradle allTests
         run: ./gradlew allTests --scan
 
