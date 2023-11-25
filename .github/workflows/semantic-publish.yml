@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Semantic Release Dry Run
+      - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         id: semantic
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Save new version as env variable
+        if: ${{ steps.semantic.outputs.new_release_published  == 'true' }}
         run: |
           echo NEW_VER=\
           ${{ steps.semantic.outputs.new_major_version }}.\
@@ -25,11 +25,13 @@ jobs:
         shell: bash
 
       - name: Change version in file
+        if: ${{ steps.semantic.outputs.new_release_published  == 'true' }}
         run: |
           cat gradle.properties | sed -E "s/project.version=.*\$/project.version=$NEW_VER/gm" > gradle.properties
         shell: bash
 
       - name: Commit and push new version
+        if: ${{ steps.semantic.outputs.new_release_published  == 'true' }}
         uses: EndBug/add-and-commit@v9.1.3
         with:
           add: 'gradle.properties'
