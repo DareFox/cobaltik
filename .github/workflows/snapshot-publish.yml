@@ -55,16 +55,27 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: sdkmanager "platforms;android-33"
 
-      - name: Execute Gradle allTests
-        run: ./gradlew allTests --scan
-
-      - name: Change version in file
+      - name: Change version in file on bump
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
         run: |
           cat gradle.properties | 
           sed -E "s/project.version=.*\$/project.version=${{ needs.semantic-dry-run.outputs.new_combined_version }}/gm" 
           > gradle.properties
         shell: bash
+
+      - name: Execute Gradle allTests
+        run: ./gradlew allTests --scan
+
+      - name: Execute Gradle publishToMavenLocal (for testing publishing)
+        run: ./gradlew publishToMavenLocal --scan
+
+      - name: Execute Gradle publish
+        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
+        ## to prevent publish rn, im testing
+        run: ./gradlew publishToMavenLocal --scan
+        env:
+          IS_PUBLISHING: true
+          IS_SNAPSHOT: true
 
       - name: Execute Gradle publish
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
