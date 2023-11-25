@@ -78,14 +78,6 @@ jobs:
           IS_PUBLISHING: true
           IS_SNAPSHOT: true
 
-      - name: Execute Gradle publish
-        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
-        ## to prevent publish rn, im testing
-        run: ./gradlew publishToMavenLocal --scan
-        env:
-          IS_PUBLISHING: true
-          IS_SNAPSHOT: true
-
       - name: Delete old cache
         uses: DareFox/delete-cache-by-key@v1
         if: always()
