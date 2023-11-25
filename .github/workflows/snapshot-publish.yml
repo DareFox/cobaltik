@@ -71,8 +71,7 @@ jobs:
 
       - name: Execute Gradle publish
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
-        ## to prevent publish rn, im testing
-        run: ./gradlew publishToMavenLocal --scan
+        run: ./gradlew publish --scan
         env:
           IS_PUBLISHING: true
           IS_SNAPSHOT: true
