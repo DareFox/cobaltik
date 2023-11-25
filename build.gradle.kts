@@ -1,11 +1,17 @@
 import dependencies.Library
 import dependencies.kotlinRuntimeOnly
-import gradle.onlyHostCanDoTheseTasks
-import io.gitlab.arturbosch.detekt.Detekt
-import host.*
-import multiplatform.*
-import publication.onlyHostCanPublishTheseTargets
 import gradle.getBooleanProperty
+import gradle.onlyHostCanDoTheseTasks
+import host.Arch
+import host.Machine
+import host.OS
+import host.currentMachine
+import io.gitlab.arturbosch.detekt.Detekt
+import multiplatform.nativeSpecificDependencies
+import multiplatform.setupJava
+import multiplatform.setupJs
+import multiplatform.setupNativeTargetsFor
+import publication.onlyHostCanPublishTheseTargets
 
 @Suppress // to make detekt shut up and stop crashing IDE
 
@@ -189,6 +195,7 @@ signing {
                 gpgPrivatePassword
             )
         }
+
         someEnvVariablesSet -> throw Error("Some singing variables set, but not all of them")
         else -> {
             println("[Singing] Using system-wide gpg")
