@@ -26,6 +26,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Print outputs from semantic-dry
+        run: echo "${{ toJson(needs.semantic-dry-run.outputs) }}"
+        shell: bash
+
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
