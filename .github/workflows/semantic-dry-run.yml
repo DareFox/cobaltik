@@ -42,5 +42,5 @@ jobs:
           echo new_combined_version=\
           ${{ steps.semantic.outputs.new_release_major_version }}.\
           ${{ steps.semantic.outputs.new_release_minor_version }}.\
-          ${{ steps.semantic.outputs.new_release_patch_version }}" >> "$GITHUB_OUTPUT"
+          ${{ steps.semantic.outputs.new_release_patch_version }} >> "$GITHUB_OUTPUT"
         shell: bash
