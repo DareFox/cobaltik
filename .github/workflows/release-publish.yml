@@ -76,7 +76,7 @@ jobs:
 
       - name: Execute Gradle publish
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
-        run: ./gradlew publish --scan
+        run: ./gradlew publish
         env:
           IS_PUBLISHING: true
           IS_SNAPSHOT: false
