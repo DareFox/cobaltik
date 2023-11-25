@@ -59,7 +59,7 @@ jobs:
         run: ./gradlew allTests --scan
 
       - name: Change version in file
-        if: ${{ needs.semantic-dry-run.outputs.release_triggered }}
+        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
         run: |
           cat gradle.properties | 
           sed -E "s/project.version=.*\$/project.version=${{ needs.semantic-dry-run.outputs.new_combined_version }}/gm" 
@@ -67,7 +67,7 @@ jobs:
         shell: bash
 
       - name: Execute Gradle publish
-        if: ${{ needs.semantic-dry-run.outputs.release_triggered }}
+        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
         ## to prevent publish rn, im testing
         run: ./gradlew publishToMavenLocal --scan
         env:
