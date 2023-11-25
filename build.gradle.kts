@@ -1,6 +1,6 @@
 import dependencies.Library
 import dependencies.kotlinRuntimeOnly
-import gradle.getBooleanProperty
+import gradle.getBooleanEnv
 import gradle.onlyHostCanDoTheseTasks
 import host.Arch
 import host.Machine
@@ -24,8 +24,8 @@ plugins {
     signing
 }
 
-val isPublishing = getBooleanProperty("IS_PUBLISHING") ?: false
-val isSnapshot = getBooleanProperty("IS_SNAPSHOT") ?: true
+val isPublishing = getBooleanEnv("IS_PUBLISHING") ?: false
+val isSnapshot = getBooleanEnv("IS_SNAPSHOT") ?: true
 val propertyVersion = providers.gradleProperty("project.version").get()
 
 println("isPublishing: $isPublishing")
