@@ -140,8 +140,8 @@ publishing {
                     uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
                 }
                 credentials {
-                    username = System.getProperty("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
-                    password = System.getProperty("SONATYPE_PASSWORD") ?: throw Error("env SONATYPE_PASSWORD is empty")
+                    username = System.getenv("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
+                    password = System.getenv("SONATYPE_PASSWORD") ?: throw Error("env SONATYPE_PASSWORD is empty")
                 }
             }
         }
@@ -177,9 +177,9 @@ publishing {
 
 
 signing {
-    val gpgPublicId = System.getProperty("MAVEN_GPG_PUBLIC_KEY_ID")
-    val gpgPrivateKey = System.getProperty("MAVEN_GPG_PRIVATE_KEY")
-    val gpgPrivatePassword = System.getProperty("MAVEN_GPG_PRIVATE_PASSWORD")
+    val gpgPublicId = System.getenv("MAVEN_GPG_PUBLIC_KEY_ID")
+    val gpgPrivateKey = System.getenv("MAVEN_GPG_PRIVATE_KEY")
+    val gpgPrivatePassword = System.getenv("MAVEN_GPG_PRIVATE_PASSWORD")
 
     val envVariables = listOf(gpgPrivateKey, gpgPublicId, gpgPrivatePassword)
 
