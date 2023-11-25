@@ -1,0 +1,69 @@
+name: Check semantic release outputs on dry run
+permissions:
+  actions: write
+  contents: write
+on:
+  workflow_dispatch:
+jobs:
+  test-pre-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Semantic Release Dry Run
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          # semantic-release should have at least one release branch
+          branches: |
+            [ { name: 'main', prerelease: false },
+              { name: 'ci', prerelease: true} ]
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Print outputs
+        run: |
+          echo "${{ steps.semantic.outputs }}"
+          echo "new_release_published = ${{ steps.semantic.outputs.new_release_published }}"
+          echo "new_release_version = ${{ steps.semantic.outputs.new_release_version }}"
+          echo "new_release_major_version = ${{ steps.semantic.outputs.new_release_major_version }}"
+          echo "new_release_minor_version = ${{ steps.semantic.outputs.new_release_minor_version }}"
+          echo "new_release_patch_version = ${{ steps.semantic.outputs.new_release_patch_version }}"
+          echo "new_release_channel = ${{ steps.semantic.outputs.new_release_channel }}"
+          echo "new_release_notes = ${{ steps.semantic.outputs.new_release_notes }}"
+          echo "new_release_git_head = ${{ steps.semantic.outputs.new_release_git_head }}"
+          echo "new_release_git_tag = ${{ steps.semantic.outputs.new_release_git_tag }}"
+          echo "last_release_version = ${{ steps.semantic.outputs.last_release_version }}"
+          echo "last_release_git_head = ${{ steps.semantic.outputs.last_release_git_head }}"
+          echo "last_release_git_tag = ${{ steps.semantic.outputs.last_release_git_tag }}"
+        shell: bash
+
+  test-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Semantic Release Dry Run
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          branches: |
+            [ { name: 'ci', prerelease: false} ]
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Print outputs
+        run: |
+          echo "new_release_published = ${{ steps.semantic.outputs.new_release_published }}"
+          echo "new_release_version = ${{ steps.semantic.outputs.new_release_version }}"
+          echo "new_release_major_version = ${{ steps.semantic.outputs.new_release_major_version }}"
+          echo "new_release_minor_version = ${{ steps.semantic.outputs.new_release_minor_version }}"
+          echo "new_release_patch_version = ${{ steps.semantic.outputs.new_release_patch_version }}"
+          echo "new_release_channel = ${{ steps.semantic.outputs.new_release_channel }}"
+          echo "new_release_notes = ${{ steps.semantic.outputs.new_release_notes }}"
+          echo "new_release_git_head = ${{ steps.semantic.outputs.new_release_git_head }}"
+          echo "new_release_git_tag = ${{ steps.semantic.outputs.new_release_git_tag }}"
+          echo "last_release_version = ${{ steps.semantic.outputs.last_release_version }}"
+          echo "last_release_git_head = ${{ steps.semantic.outputs.last_release_git_head }}"
+          echo "last_release_git_tag = ${{ steps.semantic.outputs.last_release_git_tag }}"
+        shell: bash

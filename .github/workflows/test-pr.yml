@@ -1,11 +1,8 @@
-name: Run all tests and test publishToMavenLocal
+name: Run all tests and test publishing on PR
 permissions:
   actions: write
 on:
-  workflow_dispatch:
-  push:
   pull_request:
-
 jobs:
   test:
     strategy:
@@ -49,11 +46,15 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sdkmanager "platforms;android-33"
 
-    - name: Execute Gradle allTests
-      run: ./gradlew allTests --scan
+    - name: Run gradle allTests
+      run:
+        ./gradlew allTests --scan
+      shell: bash
 
-    - name: Execute Gradle publishToMavenLocal
-      run: ./gradlew publishToMavenLocal --scan
+    - name: Run gradle publishToMavenLocal
+      run:
+        ./gradlew publishToMavenLocal --scan
+      shell: bash
 
     - name: Delete old cache
       uses: DareFox/delete-cache-by-key@v1

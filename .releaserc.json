@@ -1,0 +1,18 @@
+{
+  "branches": [
+    {
+      "name": "main",
+      "prerelease": false
+    },
+    {
+      "name": "develop",
+      "prerelease": true
+    }
+  ],
+  "repositoryUrl": "https://github.com/DareFox/cobaltik.git",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github"
+  ]
+}
