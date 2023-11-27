@@ -28,7 +28,9 @@ jobs:
       - name: Change version in file
         if: ${{ steps.semantic.outputs.new_release_published  == 'true' }}
         run: |
-          cat gradle.properties | sed -E "s/project.version=.*\$/project.version=$NEW_VER/gm" > gradle.properties
+          cat gradle.properties | sed -E "s/project.version=.*/project.version=$NEW_VER/g" > tempfile; 
+          cat tempfile
+          mv tempfile gradle.properties
         shell: bash
 
       - name: Commit and push new version
