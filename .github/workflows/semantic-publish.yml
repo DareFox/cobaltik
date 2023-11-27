@@ -4,6 +4,7 @@ permissions:
   contents: write
 on:
   workflow_call:
+  workflow_dispatch:
 jobs:
   semantic-publish:
     runs-on: ubuntu-latest
@@ -19,15 +20,17 @@ jobs:
         if: ${{ steps.semantic.outputs.new_release_published  == 'true' }}
         run: |
           echo NEW_VER=\
-          ${{ steps.semantic.outputs.new_major_version }}.\
-          ${{ steps.semantic.outputs.new_minor_version }}.\
-          ${{ steps.semantic.outputs.new_patch_version }}" >> "$GITHUB_ENV"
+          ${{ steps.semantic.outputs.new_release_major_version }}.\
+          ${{ steps.semantic.outputs.new_release_minor_version }}.\
+          ${{ steps.semantic.outputs.new_release_patch_version }} >> "$GITHUB_ENV"
         shell: bash
 
       - name: Change version in file
         if: ${{ steps.semantic.outputs.new_release_published  == 'true' }}
         run: |
-          cat gradle.properties | sed -E "s/project.version=.*\$/project.version=$NEW_VER/gm" > gradle.properties
+          cat gradle.properties | sed -E "s/project.version=.*/project.version=$NEW_VER/g" > tempfile; 
+          cat tempfile
+          mv tempfile gradle.properties
         shell: bash
 
       - name: Commit and push new version

@@ -1,11 +1,17 @@
 import dependencies.Library
 import dependencies.kotlinRuntimeOnly
+import gradle.getBooleanEnv
 import gradle.onlyHostCanDoTheseTasks
+import host.Arch
+import host.Machine
+import host.OS
+import host.currentMachine
 import io.gitlab.arturbosch.detekt.Detekt
-import host.*
-import multiplatform.*
+import multiplatform.nativeSpecificDependencies
+import multiplatform.setupJava
+import multiplatform.setupJs
+import multiplatform.setupNativeTargetsFor
 import publication.onlyHostCanPublishTheseTargets
-import gradle.getBooleanProperty
 
 @Suppress // to make detekt shut up and stop crashing IDE
 
@@ -18,8 +24,8 @@ plugins {
     signing
 }
 
-val isPublishing = getBooleanProperty("IS_PUBLISHING") ?: false
-val isSnapshot = getBooleanProperty("IS_SNAPSHOT") ?: true
+val isPublishing = getBooleanEnv("IS_PUBLISHING") ?: false
+val isSnapshot = getBooleanEnv("IS_SNAPSHOT") ?: true
 val propertyVersion = providers.gradleProperty("project.version").get()
 
 println("isPublishing: $isPublishing")
@@ -131,11 +137,11 @@ publishing {
                 url = if (isSnapshot) {
                     uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
                 } else {
-                    uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                    uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 }
                 credentials {
-                    username = System.getProperty("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
-                    password = System.getProperty("SONATYPE_PASSWORD") ?: throw Error("env SONATYPE_PASSWORD is empty")
+                    username = System.getenv("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
+                    password = System.getenv("SONATYPE_PASSWORD") ?: throw Error("env SONATYPE_PASSWORD is empty")
                 }
             }
         }
@@ -171,9 +177,9 @@ publishing {
 
 
 signing {
-    val gpgPublicId = System.getProperty("MAVEN_GPG_PUBLIC_KEY_ID")
-    val gpgPrivateKey = System.getProperty("MAVEN_GPG_PRIVATE_KEY")
-    val gpgPrivatePassword = System.getProperty("MAVEN_GPG_PRIVATE_PASSWORD")
+    val gpgPublicId = System.getenv("MAVEN_GPG_PUBLIC_KEY_ID")
+    val gpgPrivateKey = System.getenv("MAVEN_GPG_PRIVATE_KEY")
+    val gpgPrivatePassword = System.getenv("MAVEN_GPG_PRIVATE_PASSWORD")
 
     val envVariables = listOf(gpgPrivateKey, gpgPublicId, gpgPrivatePassword)
 
@@ -189,6 +195,7 @@ signing {
                 gpgPrivatePassword
             )
         }
+
         someEnvVariablesSet -> throw Error("Some singing variables set, but not all of them")
         else -> {
             println("[Singing] Using system-wide gpg")

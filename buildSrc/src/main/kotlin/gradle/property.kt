@@ -1,5 +1,5 @@
 package gradle
 
-fun getBooleanProperty(property: String): Boolean? = System.getProperty(property)
+fun getBooleanEnv(variable: String): Boolean? = System.getenv(variable)
     ?.lowercase()
     ?.toBooleanStrictOrNull()

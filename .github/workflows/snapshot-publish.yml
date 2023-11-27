@@ -26,6 +26,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Print outputs from semantic-dry
+        run: echo "${{ toJson(needs.semantic-dry-run.outputs) }}"
+        shell: bash
+
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
@@ -46,6 +50,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
       - name: Setup Android
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -58,9 +64,13 @@ jobs:
       - name: Change version in file on bump
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
         run: |
-          cat gradle.properties | 
-          sed -E "s/project.version=.*\$/project.version=${{ needs.semantic-dry-run.outputs.new_combined_version }}/gm" 
-          > gradle.properties
+          cat gradle.properties | sed -E "s/project.version=.*/project.version=${{ needs.semantic-dry-run.outputs.new_combined_version }}/g" > tempfile; 
+          cat tempfile
+          mv tempfile gradle.properties
+        shell: bash
+
+      - name: Log gradle.properties
+        run: cat gradle.properties
         shell: bash
 
       - name: Execute Gradle allTests
@@ -71,18 +81,12 @@ jobs:
 
       - name: Execute Gradle publish
         if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
-        run: ./gradlew publish --scan
+        run: ./gradlew publish
         env:
           IS_PUBLISHING: true
           IS_SNAPSHOT: true
-
-      - name: Execute Gradle publish
-        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
-        ## to prevent publish rn, im testing
-        run: ./gradlew publishToMavenLocal --scan
-        env:
-          IS_PUBLISHING: true
-          IS_SNAPSHOT: true
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
 
       - name: Delete old cache
         uses: DareFox/delete-cache-by-key@v1
