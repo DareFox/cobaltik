@@ -10,7 +10,7 @@ fun Project.onlyHostCanPublishTheseTargets(
     publishingMachine: Machine,
     target: List<String>
 ) {
-    val excludedTasks = target.map(::getPublishTaskName)
+    val excludedTasks = target.map(::getPublishTaskName).flatten()
 
     // Machine is just data class with two system properties (OS and Architecture)
     if (publishingMachine != currentMachine) {
@@ -18,5 +18,7 @@ fun Project.onlyHostCanPublishTheseTargets(
     }
 }
 
-private fun getPublishTaskName(target: String): String
-    = "publish${target.uppercaseFirstChar()}ToMavenLocal"
+private fun getPublishTaskName(target: String)
+    = listOf(
+    "publish${target.uppercaseFirstChar()}ToMavenLocal",
+    "publish${target.uppercaseFirstChar()}ToSonatypeRepository")
