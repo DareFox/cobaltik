@@ -20,5 +20,5 @@ fun Project.onlyHostCanPublishTheseTargets(
 
 private fun getPublishTaskName(target: String)
     = listOf(
-    "publish${target.uppercaseFirstChar()}ToMavenLocal",
-    "publish${target.uppercaseFirstChar()}ToSonatypeRepository")
+    "publish${target.uppercaseFirstChar()}PublicationToMavenLocal",
+    "publish${target.uppercaseFirstChar()}PublicationToSonatypeRepository")
