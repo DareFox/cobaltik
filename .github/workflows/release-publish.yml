@@ -4,6 +4,11 @@ permissions:
   contents: write
 on:
   workflow_dispatch:
+    inputs:
+      always_publish:
+        type: boolean
+        description: "If true, action will publish to maven repository, even if there's no version bump"
+        default: false
   push:
     branches:
       - main
@@ -80,7 +85,7 @@ jobs:
         run: ./gradlew publishToMavenLocal --scan
 
       - name: Execute Gradle publish
-        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' }}
+        if: ${{ needs.semantic-dry-run.outputs.release_triggered == 'true' || inputs.always_publish }}
         run: ./gradlew publish
         env:
           IS_PUBLISHING: true
