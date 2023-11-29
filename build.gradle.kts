@@ -21,6 +21,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     `maven-publish`
     id("com.android.library")
+    id("org.jetbrains.dokka") version "1.9.10"
     signing
 }
 
@@ -49,6 +50,14 @@ tasks.withType<Detekt>().configureEach {
         txt.required.set(true) // similar to the CLI output, contains issue signature to manually edit baseline files
         sarif.required.set(true) // standardized SARIF format to support integrations with GitHub Code Scanning
         md.required.set(true) // simple Markdown format
+    }
+}
+
+tasks {
+    register<Jar>("dokkaJar") {
+        from(dokkaHtml)
+        dependsOn(dokkaHtml)
+        archiveClassifier.set("javadoc")
     }
 }
 
@@ -173,9 +182,14 @@ publishing {
                 url.set("https://github.com/DareFox/cobaltik")
             }
         }
+        artifact(tasks["dokkaJar"])
     }
 }
 
+// see https://youtrack.jetbrains.com/issue/KT-46466
+tasks.withType(AbstractPublishToMaven::class.java).configureEach {
+    dependsOn(tasks.withType(Sign::class.java))
+}
 
 signing {
     val gpgPublicId = System.getenv("MAVEN_GPG_PUBLIC_KEY_ID")
