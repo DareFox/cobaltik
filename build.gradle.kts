@@ -21,6 +21,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     `maven-publish`
     id("com.android.library")
+    id("org.jetbrains.dokka") version "1.9.10"
     signing
 }
 
@@ -52,6 +53,13 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
+tasks {
+    register<Jar>("dokkaJar") {
+        from(dokkaHtml)
+        dependsOn(dokkaHtml)
+        archiveClassifier.set("javadoc")
+    }
+}
 android {
     compileSdk = 33
     defaultConfig {
@@ -173,6 +181,7 @@ publishing {
                 url.set("https://github.com/DareFox/cobaltik")
             }
         }
+        artifact(tasks["dokkaJar"])
     }
 }
 
