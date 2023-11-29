@@ -107,3 +107,5 @@ jobs:
     needs: test-and-publish-release
     uses: ./.github/workflows/semantic-publish.yml
     secrets: inherit
+    with:
+      main_release_tag: true
