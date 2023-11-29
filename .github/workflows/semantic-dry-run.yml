@@ -4,6 +4,11 @@ permissions:
   contents: write
 on:
   workflow_call:
+    inputs:
+      main_release_tag:
+        type: boolean
+        default: false
+        description: Is this main release call? If true, on release will be created major version branch (v1,v2) and it will be updated each next non-major release
     outputs:
       release_triggered:
         description: string. true if semantic-release bumps version, else false
@@ -43,4 +48,11 @@ jobs:
           ${{ steps.semantic.outputs.new_major_version }}.\
           ${{ steps.semantic.outputs.new_minor_version }}.\
           ${{ steps.semantic.outputs.new_patch_version }}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Is input boolean or string?
+        run: |
+          echo "Value =  ${{ inputs.main_release_tag }}"
+          echo "Is string? = ${{ inputs.main_release_tag == 'true' ||  inputs.main_release_tag == 'false' }}"
+          echo "Is boolean? = ${{ inputs.main_release_tag == true ||  inputs.main_release_tag == false }}"
         shell: bash

@@ -11,6 +11,8 @@ jobs:
   semantic-dry-run:
     uses: ./.github/workflows/semantic-dry-run.yml
     secrets: inherit
+    with:
+      main_release_tag: true
 
   test-and-publish-snapshot:
     needs: semantic-dry-run
