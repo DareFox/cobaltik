@@ -116,12 +116,6 @@ kotlin {
     }
 }
 
-// PUBLISHING
-onlyHostCanPublishTheseTargets(
-    publishingMachine = Machine(OS.Linux, Arch.X86),
-    target = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
-)
-
 // TESTING
 onlyHostCanDoTheseTasks(
     machine = Machine(OS.Linux, Arch.X86),
@@ -132,6 +126,11 @@ onlyHostCanDoTheseTasks(
 publishing {
     repositories {
         if (isPublishing) {
+            onlyHostCanPublishTheseTargets(
+                publishingMachine = Machine(OS.Linux, Arch.X86),
+                target = listOf("androidRelease", "kotlinMultiplatform", "jvm", "js")
+            )
+
             maven {
                 name = "sonatype"
                 val repourl = if (isSnapshot) {
