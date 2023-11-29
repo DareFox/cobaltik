@@ -128,7 +128,7 @@ publishing {
         if (isPublishing) {
             onlyHostCanPublishTheseTargets(
                 publishingMachine = Machine(OS.Linux, Arch.X86),
-                target = listOf("androidRelease", "kotlinMultiplatform", "jvm", "js")
+                target = listOf("androidRelease", "androidDebug", "kotlinMultiplatform", "jvm", "js")
             )
 
             maven {
