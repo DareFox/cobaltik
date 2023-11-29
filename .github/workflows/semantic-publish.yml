@@ -4,6 +4,11 @@ permissions:
   contents: write
 on:
   workflow_call:
+    inputs:
+      main_release_tag:
+        type: boolean
+        default: false
+        description: Is this main release call? If true, on release will be created major version branch (v1,v2) and it will be updated each next non-major release
   workflow_dispatch:
 jobs:
   semantic-publish:
@@ -40,3 +45,8 @@ jobs:
           add: 'gradle.properties'
           message: 'build(version): Push version to ${{ env.NEW_VER }}'
           default_author: github_actions
+
+      - name: Push updates to branch for major version
+        if: steps.semantic.outputs.new_release_published == 'true' && inputs.main_release_tag == true
+        run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:refs/heads/v${{steps.semantic.outputs.new_release_major_version}}"
+        env:
