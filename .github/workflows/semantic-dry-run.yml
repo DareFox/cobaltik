@@ -3,6 +3,12 @@ permissions:
   actions: write
   contents: write
 on:
+  workflow_dispatch:
+    inputs:
+      test:
+        type: boolean
+        default: false
+        description: testing workflow dispatch types
   workflow_call:
     inputs:
       main_release_tag:
@@ -52,7 +58,7 @@ jobs:
 
       - name: Is input boolean or string?
         run: |
-          echo "Value =  ${{ inputs.main_release_tag }}"
-          echo "Is string? = ${{ inputs.main_release_tag == 'true' ||  inputs.main_release_tag == 'false' }}"
-          echo "Is boolean? = ${{ inputs.main_release_tag == true ||  inputs.main_release_tag == false }}"
+          echo "Value =  ${{ inputs.test }}"
+          echo "Is string? = ${{ inputs.test == 'true' ||  inputs.test == 'false' }}"
+          echo "Is boolean? = ${{ inputs.test == true ||  inputs.test == false }}"
         shell: bash
