@@ -60,6 +60,7 @@ tasks {
         archiveClassifier.set("javadoc")
     }
 }
+
 android {
     compileSdk = 33
     defaultConfig {
@@ -185,6 +186,10 @@ publishing {
     }
 }
 
+// see https://youtrack.jetbrains.com/issue/KT-46466
+tasks.withType(AbstractPublishToMaven::class.java).configureEach {
+    dependsOn(tasks.withType(Sign::class.java))
+}
 
 signing {
     val gpgPublicId = System.getenv("MAVEN_GPG_PUBLIC_KEY_ID")
