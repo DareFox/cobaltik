@@ -116,12 +116,6 @@ kotlin {
     }
 }
 
-// PUBLISHING
-onlyHostCanPublishTheseTargets(
-    publishingMachine = Machine(OS.Linux, Arch.X86),
-    target = listOf("androidDebug", "androidRelease", "kotlinMultiplatform", "jvm", "js")
-)
-
 // TESTING
 onlyHostCanDoTheseTasks(
     machine = Machine(OS.Linux, Arch.X86),
@@ -132,13 +126,20 @@ onlyHostCanDoTheseTasks(
 publishing {
     repositories {
         if (isPublishing) {
+            onlyHostCanPublishTheseTargets(
+                publishingMachine = Machine(OS.Linux, Arch.X86),
+                target = listOf("androidRelease", "kotlinMultiplatform", "jvm", "js")
+            )
+
             maven {
                 name = "sonatype"
-                url = if (isSnapshot) {
+                val repourl = if (isSnapshot) {
                     uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
                 } else {
                     uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 }
+                println("repo url is $repourl")
+                url = repourl
                 credentials {
                     username = System.getenv("SONATYPE_USERNAME") ?: throw Error("env SONATYPE_USERNAME is empty")
                     password = System.getenv("SONATYPE_PASSWORD") ?: throw Error("env SONATYPE_PASSWORD is empty")
