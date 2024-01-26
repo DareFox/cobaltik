@@ -11,7 +11,7 @@ import me.darefox.cobaltik.wrapper.builders.RequestBuilder
  *
  * @property serverUrl The base URL of the Cobalt server.
  */
-class Cobalt(val serverUrl: String) {
+class Cobalt(override val serverUrl: String) : ICobalt {
     private val raw = CobaltRaw(serverUrl)
 
     /**
@@ -21,7 +21,7 @@ class Cobalt(val serverUrl: String) {
      * @param setupOptions A lambda function that configures the builder with additional options.
      * @return [A wrapped Cobalt response][WrappedCobaltResponse].
      */
-    suspend fun <T> request(builder: RequestBuilder<T>, setupOptions: T.() -> Unit): WrappedCobaltResponse {
+    override suspend fun <T> request(builder: RequestBuilder<T>, setupOptions: T.() -> Unit): WrappedCobaltResponse {
         return requestWithBuilder(builder, setupOptions)
     }
 
@@ -32,9 +32,9 @@ class Cobalt(val serverUrl: String) {
      * @param setupOptions A lambda function that configures the request options if provided.
      * @return [A wrapped Cobalt response][WrappedCobaltResponse].
      */
-    suspend fun request(
+    override suspend fun request(
         url: String,
-        setupOptions: (CobaltRequestBuilder.() -> Unit)? = null
+        setupOptions: (CobaltRequestBuilder.() -> Unit)?
     ): WrappedCobaltResponse = requestWithBuilder(CobaltRequestBuilder(url), setupOptions)
 
     /**
@@ -43,7 +43,7 @@ class Cobalt(val serverUrl: String) {
      * @param requestObj The pre-built CobaltRequest object.
      * @return [A wrapped Cobalt response][WrappedCobaltResponse].
      */
-    suspend fun request(requestObj: CobaltRequest): WrappedCobaltResponse = requestWrapped(requestObj)
+    override suspend fun request(requestObj: CobaltRequest): WrappedCobaltResponse = requestWrapped(requestObj)
 
 
     /**
@@ -51,7 +51,7 @@ class Cobalt(val serverUrl: String) {
      *
      * @return [CobaltServerInfo] server info
      */
-    suspend fun getServerInfo() = raw.getServerInfo()
+    override suspend fun getServerInfo() = raw.getServerInfo()
 
     private suspend fun <T> requestWithBuilder(
         builder: RequestBuilder<T>,
