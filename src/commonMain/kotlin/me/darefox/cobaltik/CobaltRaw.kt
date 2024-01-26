@@ -3,6 +3,7 @@ package me.darefox.cobaltik
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import me.darefox.cobaltik.extensions.withRequestDispatcher
 import me.darefox.cobaltik.models.CobaltError
 import me.darefox.cobaltik.models.CobaltRequest
 import me.darefox.cobaltik.models.CobaltResponse
@@ -14,7 +15,7 @@ import me.darefox.cobaltik.models.CobaltServerInfo
  * @param serverUrl The base URL of the Cobalt server.
  * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md">Cobalt API Documentation</a>
  */
-class CobaltRaw(val serverUrl: String) {
+class CobaltRaw(override val serverUrl: String) : ICobaltRaw {
     /**
      * POST `/api/json`
      *
@@ -27,7 +28,7 @@ class CobaltRaw(val serverUrl: String) {
      * @return The [CobaltResponse] received from the server.
      * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#post-apijson">Documentation</a>
     */
-    suspend fun request(request: CobaltRequest): CobaltResponse {
+    override suspend fun request(request: CobaltRequest): CobaltResponse = withRequestDispatcher {
         val response = ktor.use { client ->
             client.post {
                 url(appendPath("/api/json"))
@@ -36,7 +37,7 @@ class CobaltRaw(val serverUrl: String) {
             }.body<CobaltResponse>()
         }
 
-        return response
+        return@withRequestDispatcher response
     }
 
     /**
@@ -49,10 +50,12 @@ class CobaltRaw(val serverUrl: String) {
      * @return The [CobaltServerInfo] containing basic server information.
      * @see <a href="https://github.com/wukko/cobalt/blob/current/docs/API.md#get-apiserverinfo">Documentation</a>
      */
-    suspend fun getServerInfo(): CobaltServerInfo = ktor.use { client ->
-        client.get {
-            url(appendPath("/api/serverInfo"))
-        }.body()
+    override suspend fun getServerInfo(): CobaltServerInfo = withRequestDispatcher {
+        ktor.use { client ->
+            client.get {
+                url(appendPath("/api/serverInfo"))
+            }.body()
+        }
     }
 
 

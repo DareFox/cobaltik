@@ -20,7 +20,6 @@ plugins {
     kotlin("plugin.serialization") version "1.9.20"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     `maven-publish`
-    id("com.android.library")
     id("org.jetbrains.dokka") version "1.9.10"
     signing
 }
@@ -61,23 +60,11 @@ tasks {
     }
 }
 
-android {
-    compileSdk = 33
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-    }
-    namespace = "me.darefox.cobaltik"
-}
-
 kotlin {
     withSourcesJar()
 
     setupJava()
     setupJs()
-    androidTarget {
-        publishLibraryVariants("release", "debug")
-    }
     val nativeHostTargets = setupNativeTargetsFor(currentMachine)
 
     sourceSets {
@@ -95,12 +82,8 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting {
-            kotlinRuntimeOnly(Library.KTOR_CLIENT_ANDROID)
-        }
-        val androidTest by creating
         val jvmMain by getting {
-            kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_OKHTTP)
         }
         val jvmTest by getting {
             kotlinRuntimeOnly(Library.SLF4J_SIMPLE)
@@ -115,7 +98,7 @@ kotlin {
         }
         val nativeMain by creating {
             dependsOn(commonMain) // WITHOUT THIS LINE GRADLE WON'T CROSSCOMPILE
-            kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_OKHTTP)
         }
         val nativeTest by creating
         nativeSpecificDependencies(
@@ -128,7 +111,7 @@ kotlin {
 // TESTING
 onlyHostCanDoTheseTasks(
     machine = Machine(OS.Linux, Arch.X86),
-    tasks = listOf("testDebugUnitTest", "testReleaseUnitTest", "jvmTest"), // android + jvm
+    tasks = listOf("jvmTest"), // android + jvm
     reasonForExcluding = "$currentMachine will skip these targets to remove duplication of tests"
 )
 
@@ -137,7 +120,7 @@ publishing {
         if (isPublishing) {
             onlyHostCanPublishTheseTargets(
                 publishingMachine = Machine(OS.Linux, Arch.X86),
-                target = listOf("androidRelease", "androidDebug", "kotlinMultiplatform", "jvm", "js")
+                target = listOf("kotlinMultiplatform", "jvm", "js")
             )
 
             maven {
