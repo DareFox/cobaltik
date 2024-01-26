@@ -5,12 +5,12 @@ Kotlin Multiplaform wrapper library for media downloader Cobalt API ([cobalt.too
 ## How to add cobaltik as a dependency
 Gradle (kotlin)
 ```kotlin
-implementation("me.darefox:cobaltik:1.0.0")
+implementation("me.darefox:cobaltik:2.0.0")
 ``` 
 
 Gradle
 ```groovy
-implementation 'me.darefox:cobaltik:1.0.0'
+implementation 'me.darefox:cobaltik:2.0.0'
 ```
 
 Apache Maven
@@ -18,7 +18,7 @@ Apache Maven
 <dependency>
     <groupId>me.darefox</groupId>
     <artifactId>cobaltik</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
