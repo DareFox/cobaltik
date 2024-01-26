@@ -83,7 +83,7 @@ kotlin {
             }
         }
         val jvmMain by getting {
-            kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_OKHTTP)
         }
         val jvmTest by getting {
             kotlinRuntimeOnly(Library.SLF4J_SIMPLE)
@@ -98,7 +98,7 @@ kotlin {
         }
         val nativeMain by creating {
             dependsOn(commonMain) // WITHOUT THIS LINE GRADLE WON'T CROSSCOMPILE
-            kotlinRuntimeOnly(Library.KTOR_CLIENT_CIO)
+            kotlinRuntimeOnly(Library.KTOR_CLIENT_OKHTTP)
         }
         val nativeTest by creating
         nativeSpecificDependencies(

@@ -7,7 +7,6 @@ object Library {
     const val KTOR_CLIENT_CORE = "io.ktor:ktor-client-core:${LibraryVersions.KTOR}"
     const val KTOR_CLIENT_NEGOTIATION = "io.ktor:ktor-client-content-negotiation:${LibraryVersions.KTOR}"
     const val KTOR_SERIALIZATION_JSON = "io.ktor:ktor-serialization-kotlinx-json:${LibraryVersions.KTOR}"
-    const val KTOR_CLIENT_CIO = "io.ktor:ktor-client-cio:${LibraryVersions.KTOR}"
-    const val KTOR_CLIENT_ANDROID = "io.ktor:ktor-client-android:${LibraryVersions.KTOR}"
+    const val KTOR_CLIENT_OKHTTP = "io.ktor:ktor-client-okhttp:${LibraryVersions.KTOR}"
     const val KTOR_CLIENT_JS = "io.ktor:ktor-client-js:${LibraryVersions.KTOR}"
 }
