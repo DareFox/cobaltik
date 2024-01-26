@@ -3,11 +3,24 @@
 Kotlin Multiplaform wrapper library for media downloader Cobalt API ([cobalt.tools](http://cobalt.tools "cobalt.tools"))
 
 ## How to add cobaltik as a dependency
-For now you can't. I'm still fighting with Github CI to automate publishing and I hope to publish ASAP.
+Gradle (kotlin)
+```kotlin
+implementation("me.darefox:cobaltik:2.0.0")
+``` 
 
-If you want it now, you can install it localy. Just clone repo and run `./gradlew`(.bat if on windows) `publishToMavenLocal`
+Gradle
+```groovy
+implementation 'me.darefox:cobaltik:2.0.0'
+```
 
-After that it will be in your local repo as `me.darefox:cobaltik:1.0-SNAPSHOT`
+Apache Maven
+```xml
+<dependency>
+    <groupId>me.darefox</groupId>
+    <artifactId>cobaltik</artifactId>
+    <version>2.0.0</version>
+</dependency>
+```
 
 ## What class should I use? 
 Difference between Wrapper (Cobalt) and Raw API implementation (CobaltRaw) is:
